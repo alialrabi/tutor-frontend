@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { ApiResponse, AuthResponse, LoginRequest, RegisterRequest, UserProfile } from '../shared/models/auth.models';
+import { ApiResponse, AuthResponse, LoginRequest, RegisterRequest, UserProfile } from '../../shared/models/auth.models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private readonly URL = 'http://localhost:8088';
   private readonly API = '/api/auth';
   private readonly TOKEN_KEY = 'tutor_token';
   private readonly USER_KEY = 'tutor_user';
@@ -16,34 +17,46 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   register(data: RegisterRequest): Observable<ApiResponse<AuthResponse>> {
-    return this.http.post<ApiResponse<AuthResponse>>(`${this.API}/register`, data).pipe(
+    return this.http.post<ApiResponse<AuthResponse>>(`${this.URL}${this.API}/register`, data).pipe(
       tap(res => { if (res.success) this.storeAuth(res.data); })
     );
   }
 
   login(data: LoginRequest): Observable<ApiResponse<AuthResponse>> {
-    return this.http.post<ApiResponse<AuthResponse>>(`${this.API}/login`, data).pipe(
-      tap(res => { if (res.success) this.storeAuth(res.data); })
+    return this.http.post<ApiResponse<AuthResponse>>(`${this.URL}${this.API}/login`, data).pipe(
+      tap(res => {
+        console.log(res.success);
+        if (res.success) {
+          console.log("22222222222222222222222222222");
+
+          this.storeAuth(res.data);
+        }
+      })
     );
   }
 
   getProfile(): Observable<ApiResponse<UserProfile>> {
-    return this.http.get<ApiResponse<UserProfile>>(`${this.API}/me`);
+    return this.http.get<ApiResponse<UserProfile>>(`${this.URL}${this.API}/me`);
   }
 
   logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    localStorage.removeItem(this.USER_KEY);
+    const storage = this.getStorage();
+    storage?.removeItem(this.TOKEN_KEY);
+    storage?.removeItem(this.USER_KEY);
     this.currentUserSubject.next(null);
     this.router.navigate(['/auth/login']);
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+    const storage = this.getStorage();
+    console.log(storage?.getItem(this.TOKEN_KEY))
+    return storage? storage.getItem(this.TOKEN_KEY) : null;
   }
 
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    const token = this.getToken();
+    console.log("token:", token);
+    return !!token;
   }
 
   hasRole(role: string): boolean {
@@ -55,13 +68,30 @@ export class AuthService {
   }
 
   private storeAuth(auth: AuthResponse): void {
-    localStorage.setItem(this.TOKEN_KEY, auth.token);
-    localStorage.setItem(this.USER_KEY, JSON.stringify(auth));
+    const storage = this.getStorage();
+    console.log(auth.token)
+    storage?.setItem(this.TOKEN_KEY, auth.token);
+    storage?.setItem(this.USER_KEY, JSON.stringify(auth));
     this.currentUserSubject.next(auth);
   }
 
+  private getStorage(): Storage | null {
+    try {
+
+      if (typeof window !== 'undefined') {
+        console.log("33333333333333333333333333")
+        return localStorage;
+      }
+      console.log("888888888888888")
+      return null;
+    } catch {
+      return null;
+    }
+  }
+
   private getStoredUser(): AuthResponse | null {
-    const stored = localStorage.getItem(this.USER_KEY);
+    const storage = this.getStorage();
+    const stored = storage ? storage.getItem(this.USER_KEY) : null;
     return stored ? JSON.parse(stored) : null;
   }
 }

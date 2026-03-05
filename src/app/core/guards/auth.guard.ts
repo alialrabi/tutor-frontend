@@ -15,9 +15,10 @@ export const authGuard: CanActivateFn = () => {
 export const guestGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
+  console.log("guestGuard running");
 
   if (!authService.isLoggedIn()) return true;
+  console.log("User logged in -> redirect dashboard");
 
-  router.navigate(['/dashboard']);
-  return false;
+  return   router.createUrlTree(['/dashboard']);
 };
