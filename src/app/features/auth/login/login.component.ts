@@ -74,7 +74,6 @@ export class LoginComponent {
 
     this.authService.login(this.form.value).subscribe({
       next: () => {
-         console.log(this.authService.getToken());
         this.loading = false;
         this.router.navigate(['/dashboard'])
       },

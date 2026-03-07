@@ -4,7 +4,7 @@ import { Observable, of, switchMap } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { TutorService } from '../../core/services/tutor.service';
 import { UserProfile } from '../../shared/models/auth.models';
-import { Tutor } from '../../shared/models/tutor.model';
+import {Tutor} from "../../shared/models/tutor.model";
 
 interface CombinedProfile extends UserProfile {
   tutorDetails?: Tutor;

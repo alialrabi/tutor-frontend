@@ -40,5 +40,13 @@ export const routes: Routes = [
         path: 'profile',
         loadComponent: () => import('./features/user-profile/user-profile.component').then(m => m.UserProfileComponent),
     },
+    {
+        path: 'details/:id',
+        loadComponent: () => import('./features/tutor-details/tutor-details.component').then(m => m.TutorDetailsComponent),
+    },
+    {
+        path: 'time-slots',
+        loadComponent: () => import('./features/tutor-time-slots/tutor-time-slots.component').then(m => m.TutorTimeSlotsComponent),
+    },
     { path: '**', redirectTo: '' }
 ];

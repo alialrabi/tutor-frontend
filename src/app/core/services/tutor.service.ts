@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Tutor } from '../../shared/models/tutor.model';
 
@@ -18,5 +18,10 @@ export class TutorService {
 
   getTutorByUserId(userId: number): Observable<Tutor> {
     return this.http.get<Tutor>(`${this.URL}${this.API}/details/${userId}`);
+  }
+
+  getTutorDetails(id: number): Observable<Tutor> {
+    let params = new HttpParams().set('id', id);
+    return this.http.get<Tutor>(`${this.URL}${this.API}/details`, { params });
   }
 }

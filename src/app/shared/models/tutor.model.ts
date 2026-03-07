@@ -1,13 +1,14 @@
 export interface UserProfile {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   email: string;
+  phoneNumber?: string;
 }
 
 export interface Tutor {
   id: number;
-  user: UserProfile;
+  userProfile: UserProfile;
   bio: string;
   experienceYears: number;
   hourlyRate: number;
@@ -18,4 +19,5 @@ export interface Tutor {
   status: number;
   numberOfSessions?: number;
   videoId?: string;
+  categoryId?: number;
 }

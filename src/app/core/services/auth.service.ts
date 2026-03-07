@@ -31,11 +31,13 @@ export class AuthService {
   }
 
   login(data: LoginRequest): Observable<ApiResponse<AuthResponse>> {
+    debugger
     return this.http.post<ApiResponse<AuthResponse>>(`${this.URL}${this.API}/login`, data).pipe(
       tap(res => {
-        if (res.success) {
+      //  if (res.success) {
+        console.log(res)
           this.storeAuth(res.data);
-        }
+       // }
       })
     );
   }
@@ -73,6 +75,7 @@ export class AuthService {
   }
 
   private storeAuth(auth: AuthResponse): void {
+    debugger
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.TOKEN_KEY, auth.token);
       localStorage.setItem(this.USER_KEY, JSON.stringify(auth));

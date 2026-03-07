@@ -65,9 +65,9 @@
         <div *ngFor="let tutor of filteredTutors" class="tutor-card">
           <!-- Left side of the card -->
           <div class="tutor-header">
-            <div class="tutor-avatar">{{ tutor.user.firstName?.charAt(0) || 'T' }}</div>
+            <div class="tutor-avatar">{{ tutor.userProfile.firstName?.charAt(0) || 'T' }}</div>
             <div>
-              <h3 class="tutor-name">{{ tutor.user.firstName }}</h3>
+              <h3 class="tutor-name">{{ tutor.userProfile.firstName }}</h3>
               <div class="tutor-rating">
                 <span class="star">★</span> {{ tutor.rating }} <span class="reviews">({{ tutor.totalReviews }} reviews)</span>
               </div>
@@ -98,7 +98,7 @@
             </div>
 
             <div class="tutor-actions">
-              <button class="btn-outline">View Profile</button>
+              <button class="btn-outline" [routerLink]="['/details', tutor.id]">View Profile</button>
             </div>
           </div>
         </div>

@@ -1,0 +1,61 @@
+.container {
+  max-width: 1200px;
+}
+
+.card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.time-slot-icon {
+  font-size: 2rem;
+  color: #0d6efd;
+}
+
+.reserved {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.reserved .card-body {
+  background-color: #f8f9fa;
+}
+
+.badge {
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.shadow-sm {
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+}
+
+.rounded-3 {
+  border-radius: .3rem!important;
+}
+
+.fw-bold {
+  font-weight: 700!important;
+}
+
+.display-5 {
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.text-muted {
+  color: #6c757d!important;
+}

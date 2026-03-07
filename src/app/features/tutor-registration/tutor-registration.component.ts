@@ -57,7 +57,6 @@ export class TutorRegistrationComponent implements OnInit {
 
       this.tutorService.registerTutor(tutorData).subscribe({
         next: () => {
-          console.log('Tutor registered successfully');
           this.router.navigate(['/dashboard']);
         },
         error: (err) => {
