@@ -1,0 +1,66 @@
+<div class="auth-layout">
+  <div class="auth-panel">
+    <div class="panel-logo">Tutor<span>.</span></div>
+    <div class="panel-headline">Complete Your Profile</div>
+    <p class="panel-sub">Share your expertise and start connecting with students.</p>
+  </div>
+  <div class="auth-form-side">
+    <div class="auth-card" style="max-width: 500px;">
+      <div class="auth-card-title">Tutor Details</div>
+      <p class="auth-card-sub">This information will be visible on your public profile.</p>
+
+      <form [formGroup]="tutorForm" (ngSubmit)="onSubmit()">
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email" readonly>
+        </div>
+
+        <div class="field">
+          <label for="bio">Bio / Headline</label>
+          <textarea id="bio" formControlName="bio" placeholder="e.g., Passionate math tutor with 10+ years of experience..." rows="4"></textarea>
+          <div *ngIf="tutorForm.get('bio')?.invalid && tutorForm.get('bio')?.touched" class="field-error">
+            A short bio is required.
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="hourlyRate">Hourly Rate ($)</label>
+            <input id="hourlyRate" type="number" formControlName="hourlyRate" placeholder="50">
+            <div *ngIf="tutorForm.get('hourlyRate')?.invalid && tutorForm.get('hourlyRate')?.touched" class="field-error">
+              Rate is required.
+            </div>
+          </div>
+          <div class="field">
+            <label for="experienceYears">Experience (Years)</label>
+            <input id="experienceYears" type="number" formControlName="experienceYears" placeholder="5">
+            <div *ngIf="tutorForm.get('experienceYears')?.invalid && tutorForm.get('experienceYears')?.touched" class="field-error">
+              Experience is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="videoId">Intro Video ID (Optional)</label>
+          <input id="videoId" type="text" formControlName="videoId" placeholder="YouTube video ID (e.g., dQw4w9WgXcQ)">
+        </div>
+
+        <div class="field">
+          <label>Teaching Preferences</label>
+          <div class="checkbox-group">
+            <input id="acceptsOneToOne" type="checkbox" formControlName="acceptsOneToOne">
+            <label for="acceptsOneToOne">Accept one-to-one sessions</label>
+          </div>
+          <div class="checkbox-group">
+            <input id="acceptsOneToMany" type="checkbox" formControlName="acceptsOneToMany">
+            <label for="acceptsOneToMany">Accept group sessions</label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="tutorForm.invalid">
+          Complete Registration
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -17,18 +17,6 @@ import { AuthResponse, UserProfile } from '../../shared/models/auth.models';
     </div>
 
     <div *ngIf="!loading" class="dashboard-layout">
-      <!-- Topbar -->
-      <header class="topbar">
-        <div class="topbar-logo">Tutor<span>.</span></div>
-        <div class="topbar-user">
-          <div class="topbar-avatar">{{ initials }}</div>
-          <div>
-            <div class="topbar-name">{{ currentUser?.firstName }} {{ currentUser?.lastName }}</div>
-            <div class="topbar-role">{{ primaryRole }}</div>
-          </div>
-          <button class="btn-logout" (click)="logout()">Sign out</button>
-        </div>
-      </header>
 
       <main class="dashboard-content">
         <!-- Welcome Banner -->

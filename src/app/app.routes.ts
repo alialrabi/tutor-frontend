@@ -1,27 +1,44 @@
 import { Routes } from '@angular/router';
 import { authGuard, guestGuard } from './core/guards/auth.guard';
+import { HomeComponent } from "./home/home.component";
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  {
-    path: 'auth',
-    canActivate: [guestGuard],
-    children: [
-      {
-        path: 'login',
-        loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
-      },
-      {
-        path: 'register',
-        loadComponent: () => import('./features/auth/register/register.component').then(m => m.RegisterComponent)
-      },
-      { path: '', redirectTo: 'login', pathMatch: 'full' }
-    ]
-  },
-  {
-    path: 'dashboard',
-    canActivate: [authGuard],
-    loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
-  },
-  { path: '**', redirectTo: 'dashboard' }
+    { path: '', component: HomeComponent },
+    {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+    },
+    {
+        path: 'auth',
+        children: [
+            {
+                path: 'login',
+                loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
+            },
+            {
+                path: 'register',
+                loadComponent: () => import('./features/auth/register/register.component').then(m => m.RegisterComponent)
+            },
+            { path: '', redirectTo: 'login', pathMatch: 'full' }
+        ]
+    },
+    {
+        path: 'tutor',
+        children: [
+            {
+                path: 'register',
+                loadComponent: () => import('./features/tutor-registration/tutor-registration.component').then(m => m.TutorRegistrationComponent)
+            }
+        ]
+    },
+    {
+        path: 'dashboard',
+        loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
+    },
+    {
+        path: 'profile',
+        loadComponent: () => import('./features/user-profile/user-profile.component').then(m => m.UserProfileComponent),
+    },
+    { path: '**', redirectTo: '' }
 ];

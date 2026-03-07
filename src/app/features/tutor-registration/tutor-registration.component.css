@@ -1,0 +1,31 @@
+/* All primary styles are now inherited from the global styles.css */
+
+/* We can add minor adjustments or component-specific styles here if needed */
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  background: var(--surface);
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin-right: 12px;
+  accent-color: var(--brand);
+  height: 18px;
+  width: 18px;
+}
+
+.checkbox-group label {
+  margin-bottom: 0;
+  font-weight: 500;
+  color: var(--text);
+}

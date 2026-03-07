@@ -37,8 +37,16 @@ export class RegisterComponent {
     this.loading = true;
     this.error = '';
 
+    const { role, email } = this.form.value;
+
     this.authService.register(this.form.value).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: () => {
+        if (role === 'TUTOR') {
+          this.router.navigate(['/tutor/register'], { queryParams: { email } });
+        } else {
+          this.router.navigate(['/dashboard']);
+        }
+      },
       error: (err) => {
         this.error = err.error?.message || 'Registration failed. Try again.';
         this.loading = false;

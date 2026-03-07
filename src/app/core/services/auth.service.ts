@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 import { ApiResponse, AuthResponse, LoginRequest, RegisterRequest, UserProfile } from '../../shared/models/auth.models';
 
 @Injectable({ providedIn: 'root' })
@@ -11,10 +12,17 @@ export class AuthService {
   private readonly TOKEN_KEY = 'tutor_token';
   private readonly USER_KEY = 'tutor_user';
 
-  private currentUserSubject = new BehaviorSubject<AuthResponse | null>(this.getStoredUser());
-  currentUser$ = this.currentUserSubject.asObservable();
+  private currentUserSubject: BehaviorSubject<AuthResponse | null>;
+  currentUser$: Observable<AuthResponse | null>;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.currentUserSubject = new BehaviorSubject<AuthResponse | null>(this.getStoredUser());
+    this.currentUser$ = this.currentUserSubject.asObservable();
+  }
 
   register(data: RegisterRequest): Observable<ApiResponse<AuthResponse>> {
     return this.http.post<ApiResponse<AuthResponse>>(`${this.URL}${this.API}/register`, data).pipe(
@@ -25,10 +33,7 @@ export class AuthService {
   login(data: LoginRequest): Observable<ApiResponse<AuthResponse>> {
     return this.http.post<ApiResponse<AuthResponse>>(`${this.URL}${this.API}/login`, data).pipe(
       tap(res => {
-        console.log(res.success);
         if (res.success) {
-          console.log("22222222222222222222222222222");
-
           this.storeAuth(res.data);
         }
       })
@@ -40,23 +45,23 @@ export class AuthService {
   }
 
   logout(): void {
-    const storage = this.getStorage();
-    storage?.removeItem(this.TOKEN_KEY);
-    storage?.removeItem(this.USER_KEY);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(this.TOKEN_KEY);
+      localStorage.removeItem(this.USER_KEY);
+    }
     this.currentUserSubject.next(null);
     this.router.navigate(['/auth/login']);
   }
 
   getToken(): string | null {
-    const storage = this.getStorage();
-    console.log(storage?.getItem(this.TOKEN_KEY))
-    return storage? storage.getItem(this.TOKEN_KEY) : null;
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(this.TOKEN_KEY);
+    }
+    return null;
   }
 
   isLoggedIn(): boolean {
-    const token = this.getToken();
-    console.log("token:", token);
-    return !!token;
+    return !!this.getToken();
   }
 
   hasRole(role: string): boolean {
@@ -68,30 +73,18 @@ export class AuthService {
   }
 
   private storeAuth(auth: AuthResponse): void {
-    const storage = this.getStorage();
-    console.log(auth.token)
-    storage?.setItem(this.TOKEN_KEY, auth.token);
-    storage?.setItem(this.USER_KEY, JSON.stringify(auth));
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.TOKEN_KEY, auth.token);
+      localStorage.setItem(this.USER_KEY, JSON.stringify(auth));
+    }
     this.currentUserSubject.next(auth);
   }
 
-  private getStorage(): Storage | null {
-    try {
-
-      if (typeof window !== 'undefined') {
-        console.log("33333333333333333333333333")
-        return localStorage;
-      }
-      console.log("888888888888888")
-      return null;
-    } catch {
-      return null;
-    }
-  }
-
   private getStoredUser(): AuthResponse | null {
-    const storage = this.getStorage();
-    const stored = storage ? storage.getItem(this.USER_KEY) : null;
-    return stored ? JSON.parse(stored) : null;
+    if (isPlatformBrowser(this.platformId)) {
+      const stored = localStorage.getItem(this.USER_KEY);
+      return stored ? JSON.parse(stored) : null;
+    }
+    return null;
   }
 }

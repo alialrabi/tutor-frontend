@@ -1,0 +1,62 @@
+<div class="dashboard-layout">
+
+  <div class="dashboard-content">
+    <div class="welcome-banner">
+      <div class="welcome-title">My Profile</div>
+      <div class="welcome-sub">Manage your account and view your details.</div>
+    </div>
+
+    <div class="profile-grid" *ngIf="profile$ | async as profile">
+      <!-- User Info Card -->
+      <div class="info-card">
+        <div class="info-card-title">Personal Information</div>
+        <div class="info-row">
+          <span class="info-key">First Name</span>
+          <span class="info-val">{{ profile.firstName }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Last Name</span>
+          <span class="info-val">{{ profile.lastName }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Email</span>
+          <span class="info-val">{{ profile.email }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Role</span>
+          <span class="info-val">
+            <span class="badge badge-role">{{ profile.roles.join(', ') }}</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Tutor Details Card (Only visible for Tutors) -->
+      <div class="info-card" *ngIf="profile.tutorDetails">
+        <div class="info-card-title">Tutor Profile</div>
+        <div class="info-row">
+          <span class="info-key">Bio</span>
+          <span class="info-val">{{ profile.tutorDetails.bio }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Hourly Rate</span>
+          <span class="info-val">{{ profile.tutorDetails.hourlyRate | currency }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Experience</span>
+          <span class="info-val">{{ profile.tutorDetails.experienceYears }} years</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Rating</span>
+          <span class="info-val">{{ profile.tutorDetails.rating }} ({{ profile.tutorDetails.totalReviews }} reviews)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Session Types</span>
+          <span class="info-val">
+            <span *ngIf="profile.tutorDetails.acceptsOneToOne" class="badge badge-perm">1-on-1</span>
+            <span *ngIf="profile.tutorDetails.acceptsOneToMany" class="badge badge-perm">Group</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

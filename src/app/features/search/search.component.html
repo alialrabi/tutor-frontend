@@ -1,0 +1,108 @@
+<div class="dashboard-layout">
+
+  <div class="dashboard-content">
+    <div class="welcome-banner">
+      <div class="welcome-title">Find Your Perfect Tutor</div>
+      <div class="welcome-sub">Browse our list of qualified tutors and start learning today.</div>
+    </div>
+
+    <div class="search-grid">
+      <!-- Filters Section -->
+      <div class="filters-section">
+        <div class="filter-card">
+          <div class="filter-header">Filters</div>
+
+          <div class="filter-row">
+            <div class="filter-group">
+              <label>Search Bio</label>
+              <input type="text" [(ngModel)]="filters.bio" placeholder="e.g. Math">
+            </div>
+
+            <div class="filter-group">
+              <label>Min Rating</label>
+              <input type="number" [(ngModel)]="filters.rating" placeholder="4.0" min="0" max="5" step="0.1">
+            </div>
+
+            <div class="filter-group">
+              <label>Max Rate ($)</label>
+              <input type="number" [(ngModel)]="filters.hourlyRate" placeholder="50" min="0">
+            </div>
+
+            <div class="filter-group">
+              <label>Min Exp (Yrs)</label>
+              <input type="number" [(ngModel)]="filters.experienceYears" placeholder="2" min="0">
+            </div>
+
+            <div class="filter-group">
+              <label>Min Reviews</label>
+              <input type="number" [(ngModel)]="filters.totalReviews" placeholder="10" min="0">
+            </div>
+
+            <div class="filter-group">
+              <label>Session Type</label>
+              <select [(ngModel)]="filters.acceptsOneToMany">
+                <option [ngValue]="null">Any</option>
+                <option [ngValue]="true">Group</option>
+                <option [ngValue]="false">1-on-1</option>
+              </select>
+            </div>
+
+            <div class="filter-actions">
+              <button class="btn btn-primary" (click)="search()">Apply</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tutor List -->
+      <div class="tutor-list">
+        <div *ngIf="filteredTutors.length === 0" class="no-results">
+          <div class="no-results-icon">🔍</div>
+          <h3>No tutors found</h3>
+          <p>Try adjusting your filters to see more results.</p>
+        </div>
+
+        <div *ngFor="let tutor of filteredTutors" class="tutor-card">
+          <!-- Left side of the card -->
+          <div class="tutor-header">
+            <div class="tutor-avatar">{{ tutor.user.firstName?.charAt(0) || 'T' }}</div>
+            <div>
+              <h3 class="tutor-name">{{ tutor.user.firstName }}</h3>
+              <div class="tutor-rating">
+                <span class="star">★</span> {{ tutor.rating }} <span class="reviews">({{ tutor.totalReviews }} reviews)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right side of the card -->
+          <div class="tutor-content">
+            <div class="tutor-top-row">
+              <p class="tutor-bio">{{ tutor.bio }}</p>
+              <div class="tutor-price">
+                {{ tutor.hourlyRate | currency }}<span>/hr</span>
+              </div>
+            </div>
+
+            <div class="tutor-details">
+              <div class="detail-item">
+                <span class="detail-label">Experience</span>
+                <span class="detail-value">{{ tutor.experienceYears }} years</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Session Type</span>
+                <span class="detail-value">
+                  <span *ngIf="tutor.acceptsOneToMany" class="badge badge-role">Group</span>
+                  <span *ngIf="!tutor.acceptsOneToMany" class="badge badge-perm">1-on-1</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="tutor-actions">
+              <button class="btn-outline">View Profile</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
