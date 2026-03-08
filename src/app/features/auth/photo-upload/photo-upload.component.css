@@ -1,0 +1,55 @@
+/* All primary styles are now inherited from the global styles.css */
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.preview-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  border: 4px solid var(--white);
+  box-shadow: var(--shadow);
+}
+
+.placeholder-icon {
+  font-size: 3rem;
+  color: var(--muted);
+}
+
+.upload-btn {
+  width: auto;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: underline;
+}
+
+.btn-text:hover {
+  color: var(--brand);
+}

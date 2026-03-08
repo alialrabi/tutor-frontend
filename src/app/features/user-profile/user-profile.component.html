@@ -1,60 +1,113 @@
 <div class="dashboard-layout">
 
   <div class="dashboard-content">
-    <div class="welcome-banner">
-      <div class="welcome-title">My Profile</div>
-      <div class="welcome-sub">Manage your account and view your details.</div>
-    </div>
+    <div class="profile-container" *ngIf="profile$ | async as profile">
+      <!-- Profile Header -->
+      <div class="profile-header-card">
+        <div class="cover-photo" [style.backgroundImage]="'url(' + (profile.coverPhotoUrl || 'assets/default-cover.jpg') + ')'">
+          <button class="btn-edit-cover"><i class="fas fa-camera"></i> Edit Cover</button>
+        </div>
 
-    <div class="profile-grid" *ngIf="profile$ | async as profile">
-      <!-- User Info Card -->
-      <div class="info-card">
-        <div class="info-card-title">Personal Information</div>
-        <div class="info-row">
-          <span class="info-key">First Name</span>
-          <span class="info-val">{{ profile.firstName }}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-key">Last Name</span>
-          <span class="info-val">{{ profile.lastName }}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-key">Email</span>
-          <span class="info-val">{{ profile.email }}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-key">Role</span>
-          <span class="info-val">
-            <span class="badge badge-role">{{ profile.roles.join(', ') }}</span>
-          </span>
+        <div class="profile-main-info">
+          <div class="profile-picture-wrapper">
+            <img [src]="profile.profilePictureUrl || 'assets/default-avatar.png'" alt="Profile Picture" class="profile-picture">
+            <label for="profile-upload" class="btn-edit-profile-pic">
+              <i class="fas fa-camera"></i>
+            </label>
+            <input type="file" id="profile-upload" (change)="onFileSelected($event)" accept="image/*" hidden>
+          </div>
+
+          <div class="profile-text-info">
+            <h1 class="profile-name">{{ profile.firstName }} {{ profile.lastName }}</h1>
+            <p class="profile-headline">{{ profile.roles.join(' | ') }}</p>
+            <p class="profile-location" *ngIf="profile.phoneNumber"><i class="fas fa-phone"></i> {{ profile.phoneNumber }}</p>
+            <p class="profile-email"><i class="fas fa-envelope"></i> {{ profile.email }}</p>
+          </div>
+
+          <div class="profile-actions">
+            <button class="btn btn-primary">Edit Profile</button>
+            <button class="btn btn-outline">Share Profile</button>
+          </div>
         </div>
       </div>
 
-      <!-- Tutor Details Card (Only visible for Tutors) -->
-      <div class="info-card" *ngIf="profile.tutorDetails">
-        <div class="info-card-title">Tutor Profile</div>
-        <div class="info-row">
-          <span class="info-key">Bio</span>
-          <span class="info-val">{{ profile.tutorDetails.bio }}</span>
+      <!-- Main Content Grid -->
+      <div class="profile-content-grid">
+        <!-- Left Column -->
+        <div class="profile-left-col">
+          <!-- About Section -->
+          <div class="content-card" *ngIf="profile.tutorDetails?.bio">
+            <div class="card-header">
+              <h3>About</h3>
+              <button class="btn-icon"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+            <div class="card-body">
+              <p>{{ profile.tutorDetails?.bio }}</p>
+            </div>
+          </div>
+
+          <!-- Experience Section (For Tutors) -->
+          <div class="content-card" *ngIf="profile.tutorDetails">
+            <div class="card-header">
+              <h3>Experience</h3>
+              <button class="btn-icon"><i class="fas fa-plus"></i></button>
+            </div>
+            <div class="card-body">
+              <div class="experience-item">
+                <div class="exp-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                <div class="exp-details">
+                  <h4>Tutor</h4>
+                  <p>{{ profile.tutorDetails?.experienceYears }} Years of Experience</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="info-row">
-          <span class="info-key">Hourly Rate</span>
-          <span class="info-val">{{ profile.tutorDetails.hourlyRate | currency }}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-key">Experience</span>
-          <span class="info-val">{{ profile.tutorDetails.experienceYears }} years</span>
-        </div>
-        <div class="info-row">
-          <span class="info-key">Rating</span>
-          <span class="info-val">{{ profile.tutorDetails.rating }} ({{ profile.tutorDetails.totalReviews }} reviews)</span>
-        </div>
-        <div class="info-row">
-          <span class="info-key">Session Types</span>
-          <span class="info-val">
-            <span *ngIf="profile.tutorDetails.acceptsOneToOne" class="badge badge-perm">1-on-1</span>
-            <span *ngIf="profile.tutorDetails.acceptsOneToMany" class="badge badge-perm">Group</span>
-          </span>
+
+        <!-- Right Column -->
+        <div class="profile-right-col">
+          <!-- Stats Card -->
+          <div class="content-card stats-card" *ngIf="profile.tutorDetails">
+            <div class="stat-row">
+              <div class="stat-item">
+                <span class="stat-value">{{ profile.tutorDetails?.hourlyRate | currency }}</span>
+                <span class="stat-label">Hourly Rate</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">{{ profile.tutorDetails?.rating }}</span>
+                <span class="stat-label">Rating</span>
+              </div>
+            </div>
+            <div class="stat-row">
+              <div class="stat-item">
+                <span class="stat-value">{{ profile.tutorDetails?.totalReviews }}</span>
+                <span class="stat-label">Reviews</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">
+                  <span *ngIf="profile.tutorDetails?.acceptsOneToMany" class="badge badge-role">Group</span>
+                  <span *ngIf="!profile.tutorDetails?.acceptsOneToMany" class="badge badge-perm">1-on-1</span>
+                </span>
+                <span class="stat-label">Session Type</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skills/Tags (Placeholder) -->
+          <div class="content-card">
+            <div class="card-header">
+              <h3>Skills</h3>
+              <button class="btn-icon"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+            <div class="card-body">
+              <div class="skills-list">
+                <span class="skill-tag">Teaching</span>
+                <span class="skill-tag">Mathematics</span>
+                <span class="skill-tag">Online Tutoring</span>
+                <!-- Add more dynamic skills here -->
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

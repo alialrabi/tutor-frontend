@@ -1,3 +1,5 @@
+// --- Request Payloads ---
+
 export interface RegisterRequest {
   email: string;
   password: string;
@@ -12,17 +14,30 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface AuthResponse {
-  token: string;
-  tokenType: string;
-  userId: number;
-  email: string;
-  firstName: string;
-  lastName: string;
-  roles: string[];
-  permissions: string[];
+
+// --- Response Structures ---
+
+/**
+ * Generic wrapper for all backend responses.
+ */
+export interface ApiResponse<T> {
+  responseStatus: string;
+  requestUUID: string;
+  data: T;
+  traceError: string | null;
 }
 
+/**
+ * The structure of the `data` object in the login response.
+ */
+export interface LoginResponseData {
+  token: string;
+  tokenType: string;
+}
+
+/**
+ * Represents the full user profile object returned from the /me endpoint.
+ */
 export interface UserProfile {
   id: number;
   email: string;
@@ -34,8 +49,11 @@ export interface UserProfile {
   permissions: string[];
 }
 
-export interface ApiResponse<T> {
-  success: boolean;
-  message: string;
-  data: T;
+/**
+ * The object that will be stored in localStorage and held in the BehaviorSubject.
+ * It combines the token with the full user profile.
+ */
+export interface AuthenticatedUser {
+  token: string;
+  user: UserProfile;
 }

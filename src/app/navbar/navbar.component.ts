@@ -1,44 +1,35 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthResponse, UserProfile} from "../shared/models/auth.models";
-import {AuthService} from "../core/services/auth.service";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../core/services/auth.service';
+import { AuthenticatedUser } from '../shared/models/auth.models';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, RouterModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit{
-
-  loading = true;
-  currentUser: AuthResponse | null = null;
-  profile: UserProfile | null = null;
+export class NavbarComponent implements OnInit, OnDestroy {
+  currentUser: AuthenticatedUser | null = null;
+  private userSubscription: Subscription | undefined;
+  storedUser?: AuthenticatedUser;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.currentUser$.subscribe(user => this.currentUser = user);
-    this.authService.getProfile().subscribe({
-      next: res => {
-        this.profile = res.data;
-        this.loading = false;
-      },
-      error: () => this.loading = false
+    this.userSubscription = this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
     });
   }
 
-  get initials(): string {
-    const u = this.currentUser;
-    return u ? `${u.firstName[0]}${u.lastName[0]}`.toUpperCase() : '?';
-  }
-
-  get primaryRole(): string {
-    return this.currentUser?.roles?.[0] ?? 'User';
+  ngOnDestroy(): void {
+    this.userSubscription?.unsubscribe();
   }
 
   logout(): void {
     this.authService.logout();
   }
-
 }

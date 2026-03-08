@@ -44,7 +44,7 @@ export class RegisterComponent {
         if (role === 'TUTOR') {
           this.router.navigate(['/tutor/register'], { queryParams: { email } });
         } else {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/auth/upload-photo']);
         }
       },
       error: (err) => {

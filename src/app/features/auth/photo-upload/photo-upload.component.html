@@ -1,0 +1,33 @@
+<div class="auth-layout">
+  <div class="auth-panel">
+    <div class="panel-logo">Tutor<span>.</span></div>
+    <div class="panel-headline">Add a Profile Photo</div>
+    <p class="panel-sub">Help others recognize you by adding a photo to your profile.</p>
+  </div>
+
+  <div class="auth-form-side">
+    <div class="auth-card">
+      <div class="auth-card-title">Upload Photo</div>
+      <p class="auth-card-sub">Choose a clear photo of yourself.</p>
+
+      <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+      <div class="upload-container">
+        <div class="preview-circle" [style.backgroundImage]="previewUrl ? 'url(' + previewUrl + ')' : ''">
+          <span *ngIf="!previewUrl" class="placeholder-icon">📷</span>
+        </div>
+
+        <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*" hidden>
+        <label for="fileInput" class="btn btn-outline upload-btn">Choose Photo</label>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" (click)="onUpload()" [disabled]="!selectedFile || loading">
+          <span *ngIf="loading" class="spinner"></span>
+          {{ loading ? 'Uploading...' : 'Upload & Continue' }}
+        </button>
+        <button class="btn btn-text" (click)="onSkip()">Skip for now</button>
+      </div>
+    </div>
+  </div>
+</div>

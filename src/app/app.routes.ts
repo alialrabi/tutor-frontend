@@ -20,6 +20,11 @@ export const routes: Routes = [
                 path: 'register',
                 loadComponent: () => import('./features/auth/register/register.component').then(m => m.RegisterComponent)
             },
+            {
+                path: 'upload-photo',
+                loadComponent: () => import('./features/auth/photo-upload/photo-upload.component').then(m => m.PhotoUploadComponent),
+                canActivate: [authGuard]
+            },
             { path: '', redirectTo: 'login', pathMatch: 'full' }
         ]
     },
@@ -28,13 +33,14 @@ export const routes: Routes = [
         children: [
             {
                 path: 'register',
-                loadComponent: () => import('./features/tutor-registration/tutor-registration.component').then(m => m.TutorRegistrationComponent)
+                loadComponent: () => import('./features/tutor-registration/tutor-registration.component').then(m => m.TutorRegistrationComponent),
+                canActivate: [authGuard]
             }
         ]
     },
     {
         path: 'dashboard',
-        loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
+        loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent),
     },
     {
         path: 'profile',
