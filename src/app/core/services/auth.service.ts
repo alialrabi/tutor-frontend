@@ -31,8 +31,14 @@ export class AuthService {
     this.currentUser$ = this.currentUserSubject.asObservable();
   }
 
-  register(data: RegisterRequest): Observable<ApiResponse<any>> {
-    return this.http.post<ApiResponse<any>>(`${this.URL}${this.API}/register`, data);
+  register(data: RegisterRequest): Observable<AuthenticatedUser> {
+    return this.http.post<ApiResponse<any>>(`${this.URL}${this.API}/register`, data).pipe(
+      switchMap(() => {
+        // After successful registration, automatically log the user in
+        const loginData: LoginRequest = { email: data.email, password: data.password };
+        return this.login(loginData);
+      })
+    );
   }
 
   login(data: LoginRequest): Observable<AuthenticatedUser> {
@@ -75,6 +81,7 @@ export class AuthService {
   uploadProfilePicture(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('email', this.currentUserSubject.value?.user.email || '')
     return this.http.post(`${this.URL}${this.API}/upload-photo`, formData);
   }
 
