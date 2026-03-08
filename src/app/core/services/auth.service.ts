@@ -37,24 +37,14 @@ export class AuthService {
 
   login(data: LoginRequest): Observable<AuthenticatedUser> {
     return this.http.post<ApiResponse<LoginResponseData>>(`${this.URL}${this.API}/login`, data).pipe(
-      switchMap(response => {
-        if (response.responseStatus === 'SUCCESS' || response.responseStatus === '0') { // Check for success status
+      map(response => {
+        if (response.responseStatus === 'SUCCESS' || response.responseStatus === '0') {
           const token = response.data.token;
+          const user: any = response?.data; // Assuming user data is returned here as well, or fetch it separately
           
-          // Store token temporarily to make the next request
-          if (isPlatformBrowser(this.platformId)) {
-            localStorage.setItem(this.TOKEN_KEY, token);
-          }
-
-          // Fetch user profile
-          return this.getProfile().pipe(
-            map(profileResponse => {
-              const user = profileResponse.data;
-              const authUser: AuthenticatedUser = { token, user };
-              this.storeAuth(authUser);
-              return authUser;
-            })
-          );
+          const authUser: AuthenticatedUser = { token, user };
+          this.storeAuth(authUser);
+          return authUser;
         } else {
           throw new Error(response.traceError || 'Login failed');
         }
@@ -63,7 +53,6 @@ export class AuthService {
   }
 
   getProfile(): Observable<ApiResponse<UserProfile>> {
-    // Manually add the token header since the interceptor might not pick it up yet if it relies on the subject
     const token = this.getToken();
     let headers = new HttpHeaders();
     if (token) {
@@ -98,12 +87,26 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  hasRole(role: string): boolean {
-    return this.currentUserSubject.value?.user.roles?.includes(role) ?? false;
+  getTutorIdFromToken(): number | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.tutorId || null;
+    } catch (e) {
+      return null;
+    }
   }
 
-  hasPermission(permission: string): boolean {
-    return this.currentUserSubject.value?.user.permissions?.includes(permission) ?? false;
+  getUserIdFromToken(): number | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.userId || null;
+    } catch (e) {
+      return null;
+    }
   }
 
   private storeAuth(auth: AuthenticatedUser): void {

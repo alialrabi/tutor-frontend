@@ -1,0 +1,29 @@
+<div class="container my-5">
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold">Welcome, Tutor!</h1>
+    <p class="lead text-muted">Manage your sessions and profile here.</p>
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <i class="bi bi-calendar-check display-4 text-primary mb-3"></i>
+          <h5 class="card-title">My Sessions</h5>
+          <p class="card-text">View and manage your upcoming sessions.</p>
+          <a [routerLink]="['/sessions/tutor', tutorId]" class="btn btn-primary" *ngIf="tutorId">View Sessions</a>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <i class="bi bi-person-lines-fill display-4 text-success mb-3"></i>
+          <h5 class="card-title">My Profile</h5>
+          <p class="card-text">Update your bio, hourly rate, and availability.</p>
+          <a routerLink="/profile" class="btn btn-success">Edit Profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

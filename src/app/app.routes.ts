@@ -67,5 +67,10 @@ export const routes: Routes = [
             }
         ]
     },
+    {
+        path: 'tutor-home',
+        loadComponent: () => import('./features/tutor-home/tutor-home.component').then(m => m.TutorHomeComponent),
+        canActivate: [authGuard]
+    },
     { path: '**', redirectTo: '' }
 ];

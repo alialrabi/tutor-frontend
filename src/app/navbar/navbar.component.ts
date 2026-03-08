@@ -15,13 +15,16 @@ import { AuthenticatedUser } from '../shared/models/auth.models';
 export class NavbarComponent implements OnInit, OnDestroy {
   currentUser: AuthenticatedUser | null = null;
   private userSubscription: Subscription | undefined;
-  storedUser?: AuthenticatedUser;
+  tutorId: number | null = null;
+  userId: number | null = null;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.userSubscription = this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
+      this.tutorId = this.authService.getTutorIdFromToken();
+      this.userId = this.authService.getUserIdFromToken();
     });
   }
 

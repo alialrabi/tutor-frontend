@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import { Session, SessionService } from '../../core/services/session.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tutor-sessions',
   standalone: true,
-  imports: [CommonModule],
+    imports: [CommonModule, RouterLink],
   templateUrl: './tutor-sessions.component.html',
   styleUrls: ['./tutor-sessions.component.css']
 })

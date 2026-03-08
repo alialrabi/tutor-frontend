@@ -68,6 +68,7 @@ export class LoginComponent {
   get f() { return this.form.controls; }
 
   onSubmit(): void {
+    debugger
     if (this.form.invalid) return;
     this.loading = true;
     this.error = '';
@@ -75,7 +76,13 @@ export class LoginComponent {
     this.authService.login(this.form.value).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/dashboard'])
+        const tutorId = this.authService.getTutorIdFromToken();
+        debugger
+        if (tutorId) {
+          this.router.navigate(['/tutor-home']);
+        } else {
+          this.router.navigate(['/']);
+        }
       },
       error: (err) => {
         this.error = err.error?.message || 'Invalid email or password';

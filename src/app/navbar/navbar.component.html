@@ -1,10 +1,12 @@
 <header class="topbar">
-    <div class="topbar-logo">Tutor<span>.</span></div>
+    <a routerLink="/" class="topbar-logo">Tutor<span>.</span></a>
+    <div class="topbar-nav">
+        <a *ngIf="tutorId" [routerLink]="['/sessions/tutor', tutorId]" class="nav-link">My Sessions</a>
+        <a *ngIf="!tutorId && userId" [routerLink]="['/sessions/user', userId]" class="nav-link">My Sessions</a>
+    </div>
     <div class="topbar-user">
-<!--        <div class="topbar-avatar">{{ initials }}</div>-->
         <div>
             <div class="topbar-name">{{ currentUser?.user?.firstName }} {{ currentUser?.user?.lastName }}</div>
-<!--            <div class="topbar-role">{{ primaryRole }}</div>-->
         </div>
         <button class="btn-logout" (click)="logout()">Sign out</button>
     </div>
