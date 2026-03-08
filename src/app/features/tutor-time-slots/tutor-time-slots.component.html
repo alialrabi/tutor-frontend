@@ -25,7 +25,7 @@
           <p class="card-text text-muted">{{ slot.startTime | date:'longDate' }}</p>
 
           <div *ngIf="!slot.isReserved; else reservedBadge">
-            <button class="btn btn-primary" (click)="reserveSlot(slot)">
+            <button class="btn btn-primary" (click)="initiateReservation(slot)">
               Reserve Slot
             </button>
           </div>
@@ -43,3 +43,25 @@
     <p class="text-muted">Please check back later for new openings.</p>
   </div>
 </div>
+
+<!-- Confirmation Modal -->
+<div class="modal" tabindex="-1" [style.display]="selectedSlot ? 'block' : 'none'">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Reservation</h5>
+        <button type="button" class="btn-close" (click)="cancelReservation()"></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedSlot">
+        <p>Are you sure you want to reserve the following time slot?</p>
+        <p><strong>Date:</strong> {{ selectedSlot.startTime | date:'longDate' }}</p>
+        <p><strong>Time:</strong> {{ selectedSlot.startTime | date:'shortTime' }} - {{ selectedSlot.endTime | date:'shortTime' }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cancelReservation()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="confirmReservation()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="selectedSlot"></div>

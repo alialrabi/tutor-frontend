@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TimeSlot, TimeSlotService, TimeSlotRequest } from '../../core/services/time-slot.service';
 import { CommonModule } from '@angular/common';
+import { SessionService } from '../../core/services/session.service';
 
 @Component({
   selector: 'app-tutor-time-slots',
@@ -13,8 +14,12 @@ export class TutorTimeSlotsComponent implements OnInit {
   timeSlots: TimeSlot[] = [];
   loading = true;
   error = '';
+  selectedSlot: TimeSlot | null = null;
 
-  constructor(private timeSlotService: TimeSlotService) { }
+  constructor(
+    private timeSlotService: TimeSlotService,
+    private sessionService: SessionService
+  ) { }
 
   ngOnInit(): void {
     this.loadTimeSlots();
@@ -30,30 +35,40 @@ export class TutorTimeSlotsComponent implements OnInit {
     };
     this.timeSlotService.getTimeSlots(request).subscribe({
       next: (response: any) => {
-        console.log('Time slots response:', response);
+        if (response && response.data && Array.isArray(response.data.content)) {
           this.timeSlots = response.data.content;
+        } else {
+          this.timeSlots = [];
+        }
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error fetching time slots:', err);
         this.error = 'Failed to load time slots';
         this.loading = false;
       }
     });
   }
 
-  reserveSlot(slot: TimeSlot): void {
-    if (confirm(`Are you sure you want to reserve the slot from ${slot.startTime} to ${slot.endTime}?`)) {
-      this.timeSlotService.reserveTimeSlot(slot.id).subscribe({
-        next: () => {
-          alert('Time slot reserved successfully!');
-          this.loadTimeSlots(); // Refresh the list
-        },
-        error: (err) => {
-          console.error('Error reserving time slot:', err);
-          alert('Failed to reserve time slot.');
-        }
-      });
-    }
+  initiateReservation(slot: TimeSlot): void {
+    this.selectedSlot = slot;
+  }
+
+  confirmReservation(): void {
+    if (!this.selectedSlot) return;
+
+    this.sessionService.createSession(this.selectedSlot.id).subscribe({
+      next: () => {
+        this.selectedSlot = null;
+        this.loadTimeSlots(); // Refresh the list
+      },
+      error: (err) => {
+        alert('Failed to create session.');
+        this.selectedSlot = null;
+      }
+    });
+  }
+
+  cancelReservation(): void {
+    this.selectedSlot = null;
   }
 }

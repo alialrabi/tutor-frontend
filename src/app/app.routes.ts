@@ -54,5 +54,18 @@ export const routes: Routes = [
         path: 'time-slots',
         loadComponent: () => import('./features/tutor-time-slots/tutor-time-slots.component').then(m => m.TutorTimeSlotsComponent),
     },
+    {
+        path: 'sessions',
+        children: [
+            {
+                path: 'tutor/:id',
+                loadComponent: () => import('./features/tutor-sessions/tutor-sessions.component').then(m => m.TutorSessionsComponent)
+            },
+            {
+                path: 'user/:id',
+                loadComponent: () => import('./features/user-sessions/user-sessions.component').then(m => m.UserSessionsComponent)
+            }
+        ]
+    },
     { path: '**', redirectTo: '' }
 ];
