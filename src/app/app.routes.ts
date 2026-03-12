@@ -34,6 +34,7 @@ export const routes: Routes = [
             {
                 path: 'register',
                 loadComponent: () => import('./features/tutor-registration/tutor-registration.component').then(m => m.TutorRegistrationComponent),
+                canActivate: [authGuard]
             }
         ]
     },
@@ -69,6 +70,11 @@ export const routes: Routes = [
     {
         path: 'tutor-home',
         loadComponent: () => import('./features/tutor-home/tutor-home.component').then(m => m.TutorHomeComponent),
+        canActivate: [authGuard]
+    },
+    {
+        path: 'video-stream/:id',
+        loadComponent: () => import('./features/video-stream-component/video-stream-component.component').then(m => m.VideoStreamComponentComponent),
         canActivate: [authGuard]
     },
     { path: '**', redirectTo: '' }

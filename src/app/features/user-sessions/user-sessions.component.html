@@ -23,8 +23,8 @@
               <img src="assets/default-avatar.png" alt="Tutor Avatar" class="rounded-circle" width="60" height="60">
             </div>
             <div class="flex-grow-1 ms-3">
-              <h5 class="card-title mb-0">{{ session.tutor.userProfile.firstName }} {{ session.tutor.userProfile.lastName }}</h5>
-              <small class="text-muted">{{ session.tutor.userProfile.email }}</small>
+              <h5 class="card-title mb-0">{{ session?.userProfile?.firstName }} {{ session?.userProfile?.lastName }}</h5>
+              <small class="text-muted">{{ session?.userProfile?.email }}</small>
             </div>
             <div class="text-end">
               <span class="badge bg-primary rounded-pill">{{ session.tutor.hourlyRate | currency }} / hr</span>
@@ -44,7 +44,8 @@
             </div>
           </div>
 
-          <div class="d-grid">
+          <div class="d-grid gap-2">
+            <a class="btn btn-success" [routerLink]="['/video-stream']" [queryParams]="{ sessionId: session.timeSlot.id }">Join Call</a>
             <a [routerLink]="['/details', session.tutorId]" class="btn btn-outline-primary">View Tutor Profile</a>
           </div>
         </div>

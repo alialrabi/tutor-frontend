@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Session, SessionService } from '../../core/services/session.service';
 import { CommonModule } from '@angular/common';
 
@@ -17,7 +17,8 @@ export class UserSessionsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -43,5 +44,9 @@ export class UserSessionsComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  joinCall(sessionId: number): void {
+    this.router.navigate(['/video-stream'], { queryParams: { sessionId } });
   }
 }

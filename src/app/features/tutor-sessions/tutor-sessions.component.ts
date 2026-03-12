@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Session, SessionService } from '../../core/services/session.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tutor-sessions',
   standalone: true,
-    imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './tutor-sessions.component.html',
   styleUrls: ['./tutor-sessions.component.css']
 })
@@ -17,11 +17,11 @@ export class TutorSessionsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    debugger
     this.route.params.subscribe(params => {
       const tutorId = params['id'];
       if (tutorId) {
@@ -44,5 +44,9 @@ export class TutorSessionsComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  joinCall(sessionId: number): void {
+    this.router.navigate(['/video-stream'], { queryParams: { sessionId } });
   }
 }
