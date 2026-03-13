@@ -1,7 +1,7 @@
 <div class="container my-5">
   <div class="text-center mb-5">
-    <h1 class="display-5 fw-bold">Available Time Slots</h1>
-    <p class="lead text-muted">Choose a time that works for you and book your session.</p>
+    <h1 class="display-5 fw-bold">Book a Session</h1>
+    <p class="lead text-muted">Select an available time slot from the tutor's schedule.</p>
   </div>
 
   <div *ngIf="loading" class="text-center">
@@ -14,54 +14,28 @@
     {{ error }}
   </div>
 
-  <div *ngIf="!loading && !error" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    <div *ngFor="let slot of timeSlots" class="col">
-      <div class="card h-100 shadow-sm border-0" [class.reserved]="slot.isReserved">
-        <div class="card-body text-center">
-          <div class="time-slot-icon mb-3">
-            <i class="bi bi-calendar-check"></i>
+  <div *ngIf="!loading && !error" class="schedule-container">
+    <div class="schedule-grid">
+      <div *ngFor="let schedule of dailySchedules" class="day-column">
+        <div class="day-header">
+          <div class="day-of-week">{{ schedule.date | date:'EEEE' }}</div>
+          <div class="date-of-month">{{ schedule.date | date:'MMM d' }}</div>
+        </div>
+        <div class="slots-list">
+          <div *ngIf="schedule.slots.length > 0; else noSlots">
+            <div *ngFor="let slot of schedule.slots" class="slot-item">
+              <button class="btn btn-outline-primary w-100" [disabled]="slot.isReserved">
+                {{ slot.startTime | slice:0:5 }} - {{ slot.endTime | slice:0:5 }}
+              </button>
+            </div>
           </div>
-          <h5 class="card-title">{{ slot.startTime | date:'shortTime' }} - {{ slot.endTime | date:'shortTime' }}</h5>
-          <p class="card-text text-muted">{{ slot.startTime | date:'longDate' }}</p>
-
-          <div *ngIf="!slot.isReserved; else reservedBadge">
-            <button class="btn btn-primary" (click)="initiateReservation(slot)">
-              Reserve Slot
-            </button>
-          </div>
-          <ng-template #reservedBadge>
-            <span class="badge bg-secondary">Reserved</span>
+          <ng-template #noSlots>
+            <div class="no-slots-message">
+              No availability
+            </div>
           </ng-template>
         </div>
       </div>
     </div>
   </div>
-
-  <div *ngIf="!loading && timeSlots.length === 0" class="text-center mt-5">
-    <i class="bi bi-calendar-x display-4 text-muted"></i>
-    <h3 class="mt-3">No Available Slots</h3>
-    <p class="text-muted">Please check back later for new openings.</p>
-  </div>
 </div>
-
-<!-- Confirmation Modal -->
-<div class="modal" tabindex="-1" [style.display]="selectedSlot ? 'block' : 'none'">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Confirm Reservation</h5>
-        <button type="button" class="btn-close" (click)="cancelReservation()"></button>
-      </div>
-      <div class="modal-body" *ngIf="selectedSlot">
-        <p>Are you sure you want to reserve the following time slot?</p>
-        <p><strong>Date:</strong> {{ selectedSlot.startTime | date:'longDate' }}</p>
-        <p><strong>Time:</strong> {{ selectedSlot.startTime | date:'shortTime' }} - {{ selectedSlot.endTime | date:'shortTime' }}</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="cancelReservation()">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="confirmReservation()">Confirm</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal-backdrop fade show" *ngIf="selectedSlot"></div>

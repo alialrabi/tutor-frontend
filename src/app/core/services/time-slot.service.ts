@@ -10,11 +10,27 @@ export interface TimeSlot {
   isReserved: boolean;
 }
 
-export interface TimeSlotRequest {
+export interface TimeSlotListRequest {
   filterList: any[];
   sortCriteria: any[];
   page: number;
   size: number;
+}
+
+export interface CreateTimeSlotRequest {
+  startTime: string;
+  endTime: string;
+  dayOfWeek: number;
+}
+
+export interface TimeSlotDto {
+  id: number | null;
+  date: string;
+  startTime: string;
+  endTime: string;
+  dayOfWeek: number;
+  isReserved: boolean | null;
+  tutorId: number;
 }
 
 @Injectable({
@@ -26,11 +42,23 @@ export class TimeSlotService {
 
   constructor(private http: HttpClient) {}
 
-  getTimeSlots(request: TimeSlotRequest): Observable<any> {
-    return this.http.post<any>(`${this.URL}${this.API}/list`, request);
+  getTimeSlots(request: TimeSlotListRequest): Observable<any> {
+    return this.http.post<any>(`${this.URL}${this.API}/time-slots/list`, request);
+  }
+
+  createTimeSlots(requests: CreateTimeSlotRequest[]): Observable<any> {
+    return this.http.post<any>(`${this.URL}${this.API}/create`, requests);
+  }
+
+  getTutorTimeSlots(): Observable<TimeSlotDto[]> {
+    return this.http.get<TimeSlotDto[]>(`${this.URL}${this.API}/tutor/timeslots`);
+  }
+
+  getTutorTimeSlotsByTutorId(id: number): Observable<TimeSlotDto[]> {
+    return this.http.get<TimeSlotDto[]>(`${this.URL}${this.API}/tutor/${id}/timeslots`);
   }
 
   reserveTimeSlot(id: number): Observable<any> {
-    return this.http.post(`${this.URL}${this.API}/reserve/${id}`, {});
+    return this.http.post(`${this.URL}${this.API}/time-slots/reserve/${id}`, {});
   }
 }

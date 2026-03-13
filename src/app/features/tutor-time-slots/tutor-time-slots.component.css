@@ -1,61 +1,53 @@
-.container {
-  max-width: 1200px;
+.schedule-container {
+  overflow-x: auto;
+  padding-bottom: 1rem;
 }
 
-.card {
-  transition: transform 0.2s ease-in-out;
+.schedule-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(160px, 1fr);
+  gap: 1rem;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-}
-
-.time-slot-icon {
-  font-size: 2rem;
-  color: #0d6efd;
-}
-
-.reserved {
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.reserved .card-body {
+.day-column {
+  display: flex;
+  flex-direction: column;
   background-color: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
 }
 
-.badge {
+.day-header {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.day-of-week {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.date-of-month {
   font-size: 0.9rem;
+  color: #6c757d;
 }
 
-.btn-primary {
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+.slots-list {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.btn-primary:hover {
-  background-color: #0b5ed7;
-  border-color: #0a58ca;
+.slot-item .btn {
+  font-weight: 500;
 }
 
-.shadow-sm {
-  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
-}
-
-.rounded-3 {
-  border-radius: .3rem!important;
-}
-
-.fw-bold {
-  font-weight: 700!important;
-}
-
-.display-5 {
-  font-size: 2.5rem;
-  font-weight: 300;
-  line-height: 1.2;
-}
-
-.text-muted {
-  color: #6c757d!important;
+.no-slots-message {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 2rem 0;
 }

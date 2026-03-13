@@ -73,8 +73,13 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
-        path: 'video-stream/:id',
+        path: 'video-stream',
         loadComponent: () => import('./features/video-stream-component/video-stream-component.component').then(m => m.VideoStreamComponentComponent),
+        canActivate: [authGuard]
+    },
+    {
+        path: 'create-time-slot',
+        loadComponent: () => import('./features/create-time-slot/create-time-slot.component').then(m => m.CreateTimeSlotComponent),
         canActivate: [authGuard]
     },
     { path: '**', redirectTo: '' }

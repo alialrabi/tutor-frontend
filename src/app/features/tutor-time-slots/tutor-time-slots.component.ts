@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { TimeSlot, TimeSlotService, TimeSlotRequest } from '../../core/services/time-slot.service';
 import { CommonModule } from '@angular/common';
-import { SessionService } from '../../core/services/session.service';
+import { TimeSlotService, TimeSlotDto } from '../../core/services/time-slot.service';
+
+interface DailySchedule {
+  date: string;
+  slots: TimeSlotDto[];
+}
 
 @Component({
   selector: 'app-tutor-time-slots',
@@ -11,64 +15,62 @@ import { SessionService } from '../../core/services/session.service';
   styleUrls: ['./tutor-time-slots.component.css']
 })
 export class TutorTimeSlotsComponent implements OnInit {
-  timeSlots: TimeSlot[] = [];
+  dailySchedules: DailySchedule[] = [];
   loading = true;
   error = '';
-  selectedSlot: TimeSlot | null = null;
 
-  constructor(
-    private timeSlotService: TimeSlotService,
-    private sessionService: SessionService
-  ) { }
+  constructor(private timeSlotService: TimeSlotService) { }
 
   ngOnInit(): void {
-    this.loadTimeSlots();
+    this.loadTutorAvailability();
   }
 
-  loadTimeSlots(): void {
+  loadTutorAvailability(): void {
     this.loading = true;
-    const request: TimeSlotRequest = {
-      filterList: [],
-      sortCriteria: [],
-      page: 0,
-      size: 10
-    };
-    this.timeSlotService.getTimeSlots(request).subscribe({
+    // Assuming you want to fetch for a specific tutor, e.g., tutorId=1
+    this.timeSlotService.getTutorTimeSlotsByTutorId(1).subscribe({
       next: (response: any) => {
-        if (response && response.data && Array.isArray(response.data.content)) {
-          this.timeSlots = response.data.content;
-        } else {
-          this.timeSlots = [];
+        this.processSlots(response.data);
+        this.loading = false;
+      },
+      error: (err) => {
+        this.error = 'Failed to load tutor availability.';
+        this.loading = false;
+        console.error(err);
+      }
+    });
+  }
+
+  private processSlots(slots: TimeSlotDto[]): void {
+    const schedules: DailySchedule[] = [];
+    const today = new Date();
+    
+    // Create a map of dates to slots for easy lookup
+    const slotsByDate: { [key: string]: TimeSlotDto[] } = {};
+    if (slots) {
+      for (const slot of slots) {
+        const date = slot.date;
+        if (!slotsByDate[date]) {
+          slotsByDate[date] = [];
         }
-        this.loading = false;
-      },
-      error: (err) => {
-        this.error = 'Failed to load time slots';
-        this.loading = false;
+        slotsByDate[date].push(slot);
       }
-    });
-  }
+    }
 
-  initiateReservation(slot: TimeSlot): void {
-    this.selectedSlot = slot;
-  }
+    // Generate the next 7 days and map the slots
+    for (let i = 1; i < 6; i++) {
+      const nextDay = new Date(today);
+      nextDay.setDate(today.getDate() + i);
+      const dateString = nextDay.toISOString().split('T')[0];
 
-  confirmReservation(): void {
-    if (!this.selectedSlot) return;
-
-    this.sessionService.createSession(this.selectedSlot.id).subscribe({
-      next: () => {
-        this.selectedSlot = null;
-        this.loadTimeSlots(); // Refresh the list
-      },
-      error: (err) => {
-        alert('Failed to create session.');
-        this.selectedSlot = null;
-      }
-    });
-  }
-
-  cancelReservation(): void {
-    this.selectedSlot = null;
+      const daySlots = slotsByDate[dateString] || [];
+      
+      schedules.push({
+        date: dateString,
+        slots: daySlots.sort((a, b) => a.startTime.localeCompare(b.startTime))
+      });
+    }
+    
+    this.dailySchedules = schedules;
   }
 }

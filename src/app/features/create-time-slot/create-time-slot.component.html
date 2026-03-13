@@ -1,0 +1,41 @@
+<div class="container my-5">
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold">Set Your Weekly Availability</h1>
+    <p class="lead text-muted">Select the time slots you want to make available each week.</p>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <form [formGroup]="timeSlotsForm" (ngSubmit)="onSubmit()">
+    <div class="table-responsive">
+      <table class="table table-bordered text-center weekly-schedule">
+        <thead>
+          <tr>
+            <th class="time-header">Time</th>
+            <th *ngFor="let day of weekDays" class="day-header">{{ day.name }}</th>
+          </tr>
+        </thead>
+        <!-- The form array for days is not directly used here, we build the grid by cell -->
+        <tbody>
+          <tr *ngFor="let time of timeSlots[0]; let slotIndex = index">
+            <td class="time-label">{{ time.startTime }} - {{ time.endTime }}</td>
+            <td *ngFor="let day of weekDays; let dayIndex = index">
+              <!-- Each checkbox is a unique form control -->
+              <div class="form-check d-flex justify-content-center">
+                <input class="form-check-input" type="checkbox" [formControl]="getSlotControl(dayIndex, slotIndex)">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="d-grid mt-4">
+      <button type="submit" class="btn btn-primary btn-lg" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+        {{ loading ? 'Saving...' : 'Save Weekly Availability' }}
+      </button>
+    </div>
+  </form>
+</div>
