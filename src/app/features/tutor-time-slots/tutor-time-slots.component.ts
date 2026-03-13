@@ -27,7 +27,6 @@ export class TutorTimeSlotsComponent implements OnInit {
 
   loadTutorAvailability(): void {
     this.loading = true;
-    // Assuming you want to fetch for a specific tutor, e.g., tutorId=1
     this.timeSlotService.getTutorTimeSlotsByTutorId(1).subscribe({
       next: (response: any) => {
         this.processSlots(response.data);
@@ -45,7 +44,6 @@ export class TutorTimeSlotsComponent implements OnInit {
     const schedules: DailySchedule[] = [];
     const today = new Date();
     
-    // Create a map of dates to slots for easy lookup
     const slotsByDate: { [key: string]: TimeSlotDto[] } = {};
     if (slots) {
       for (const slot of slots) {
@@ -57,8 +55,7 @@ export class TutorTimeSlotsComponent implements OnInit {
       }
     }
 
-    // Generate the next 7 days and map the slots
-    for (let i = 1; i < 6; i++) {
+    for (let i = 0; i < 7; i++) {
       const nextDay = new Date(today);
       nextDay.setDate(today.getDate() + i);
       const dateString = nextDay.toISOString().split('T')[0];

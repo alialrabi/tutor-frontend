@@ -25,13 +25,13 @@ interface TimeSlot {
 })
 export class CreateTimeSlotComponent implements OnInit {
   weekDays: WeekDay[] = [
-    { name: 'Monday', value: 0 },
-    { name: 'Tuesday', value: 1 },
-    { name: 'Wednesday', value: 2 },
-    { name: 'Thursday', value: 3 },
-    { name: 'Friday', value: 4 },
-    { name: 'Saturday', value: 5 },
-    { name: 'Sunday', value: 6 }
+    { name: 'Monday', value: 1 },
+    { name: 'Tuesday', value: 2 },
+    { name: 'Wednesday', value: 3 },
+    { name: 'Thursday', value: 4 },
+    { name: 'Friday', value: 5 },
+    { name: 'Saturday', value: 6 },
+    { name: 'Sunday', value: 7 }
   ];
   timeSlots: TimeSlot[][] = []; // This holds the display data for time labels
   timeSlotsForm: FormGroup;
@@ -77,26 +77,26 @@ export class CreateTimeSlotComponent implements OnInit {
 
   loadExistingTimeSlots(): void {
     this.timeSlotService.getTutorTimeSlots().subscribe({
-      next: (existingSlots: any) => {
-        debugger
-        existingSlots?.data.forEach((slot: any) => {
-          debugger
-          const dayIndex = slot.dayOfWeek;
-          const startTimeHour = parseInt(slot.startTime.split(':')[0], 10);
+      next: (response: any) => {
+        response?.data.forEach((slot: any) => {
+          // Backend sends 1 (Mon) - 7 (Sun). Our form array is 0-indexed.
+          const dayIndex = slot.dayOfWeek - 1;
           
-          // Find the corresponding slot index (hour)
-          const slotIndex = this.timeSlots[dayIndex].findIndex(
-            ts => parseInt(ts.startTime.split(':')[0], 10) === startTimeHour
-          );
+          if (dayIndex >= 0 && dayIndex < 7) { // Safety check
+            const startTimeHour = parseInt(slot.startTime.split(':')[0], 10);
+            
+            const slotIndex = this.timeSlots[dayIndex].findIndex(
+              ts => parseInt(ts.startTime.split(':')[0], 10) === startTimeHour
+            );
 
-          if (slotIndex !== -1) {
-            this.getSlotControl(dayIndex, slotIndex).setValue(true);
+            if (slotIndex !== -1) {
+              this.getSlotControl(dayIndex, slotIndex).setValue(true);
+            }
           }
         });
       },
       error: (err) => {
         console.error('Failed to load existing time slots:', err);
-        // Optionally display an error message to the user
       }
     });
   }
@@ -128,7 +128,6 @@ export class CreateTimeSlotComponent implements OnInit {
           const startTime = this.timeSlots[dayIndex][i].startTime;
           let endTime = this.timeSlots[dayIndex][i].endTime;
 
-          // Handle the 23:00 - 00:00 case
           if (i === 23) {
             endTime = '00:00';
           }
@@ -136,7 +135,7 @@ export class CreateTimeSlotComponent implements OnInit {
           requests.push({
             startTime: startTime,
             endTime: endTime,
-            dayOfWeek: day.value
+            dayOfWeek: day.value // This will now correctly be 1-7
           });
         }
       }
