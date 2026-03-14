@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TimeSlotService, TimeSlotDto } from '../../core/services/time-slot.service';
+import { TimeSlotService, TimeSlotDto } from '../../../core/services/time-slot.service';
 
 interface DailySchedule {
   date: string;

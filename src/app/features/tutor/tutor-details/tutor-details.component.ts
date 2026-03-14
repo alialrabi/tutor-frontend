@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { TutorService } from '../../core/services/tutor.service';
+import { TutorService } from '../../../core/services/tutor.service';
 import { CommonModule } from '@angular/common';
-import { SafeUrlPipe } from '../../shared/pipes/safe-url.pipe';
-import {Tutor} from "../../shared/models/tutor.model";
+import { SafeUrlPipe } from '../../../shared/pipes/safe-url.pipe';
+import {Tutor} from "../../../shared/models/tutor.model";
 
 @Component({
   selector: 'app-tutor-details',

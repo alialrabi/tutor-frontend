@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SearchService, FilterRequest, Filter } from '../../core/services/search.service';
-import { Tutor } from '../../shared/models/tutor.model';
+import { SearchService, FilterRequest, Filter } from '../../../core/services/search.service';
+import { Tutor } from '../../../shared/models/tutor.model';
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import {RouterLink} from "@angular/router";

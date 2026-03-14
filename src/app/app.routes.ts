@@ -33,7 +33,7 @@ export const routes: Routes = [
         children: [
             {
                 path: 'register',
-                loadComponent: () => import('./features/tutor-registration/tutor-registration.component').then(m => m.TutorRegistrationComponent),
+                loadComponent: () => import('./features/tutor/tutor-registration/tutor-registration.component').then(m => m.TutorRegistrationComponent),
                 canActivate: [authGuard]
             }
         ]
@@ -48,28 +48,28 @@ export const routes: Routes = [
     },
     {
         path: 'details/:id',
-        loadComponent: () => import('./features/tutor-details/tutor-details.component').then(m => m.TutorDetailsComponent),
+        loadComponent: () => import('./features/tutor/tutor-details/tutor-details.component').then(m => m.TutorDetailsComponent),
     },
     {
         path: 'time-slots',
-        loadComponent: () => import('./features/tutor-time-slots/tutor-time-slots.component').then(m => m.TutorTimeSlotsComponent),
+        loadComponent: () => import('./features/tutor/tutor-time-slots/tutor-time-slots.component').then(m => m.TutorTimeSlotsComponent),
     },
     {
         path: 'sessions',
         children: [
             {
                 path: 'tutor/:id',
-                loadComponent: () => import('./features/tutor-sessions/tutor-sessions.component').then(m => m.TutorSessionsComponent)
+                loadComponent: () => import('./features/tutor/tutor-sessions/tutor-sessions.component').then(m => m.TutorSessionsComponent)
             },
             {
                 path: 'user/:id',
-                loadComponent: () => import('./features/user-sessions/user-sessions.component').then(m => m.UserSessionsComponent)
+                loadComponent: () => import('./features/user/user-sessions/user-sessions.component').then(m => m.UserSessionsComponent)
             }
         ]
     },
     {
         path: 'tutor-home',
-        loadComponent: () => import('./features/tutor-home/tutor-home.component').then(m => m.TutorHomeComponent),
+        loadComponent: () => import('./features/tutor/tutor-home/tutor-home.component').then(m => m.TutorHomeComponent),
         canActivate: [authGuard]
     },
     {
@@ -79,7 +79,7 @@ export const routes: Routes = [
     },
     {
         path: 'create-time-slot',
-        loadComponent: () => import('./features/create-time-slot/create-time-slot.component').then(m => m.CreateTimeSlotComponent),
+        loadComponent: () => import('./features/tutor/create-time-slot/create-time-slot.component').then(m => m.CreateTimeSlotComponent),
         canActivate: [authGuard]
     },
     { path: '**', redirectTo: '' }

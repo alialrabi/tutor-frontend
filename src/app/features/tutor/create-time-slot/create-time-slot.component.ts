@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl, ValidationErrors, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TimeSlotService, CreateTimeSlotRequest, TimeSlotDto } from '../../core/services/time-slot.service';
-import { AuthService } from '../../core/services/auth.service';
+import {AuthService} from "../../../core/services/auth.service";
+import {CreateTimeSlotRequest, TimeSlotService} from "../../../core/services/time-slot.service";
 
 interface WeekDay {
   name: string;

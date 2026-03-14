@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Session, SessionService } from '../../core/services/session.service';
+import { Session, SessionService } from '../../../core/services/session.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-user-sessions',
+  selector: 'app-tutor-sessions',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  templateUrl: './user-sessions.component.html',
-  styleUrls: ['./user-sessions.component.css']
+  templateUrl: './tutor-sessions.component.html',
+  styleUrls: ['./tutor-sessions.component.css']
 })
-export class UserSessionsComponent implements OnInit {
+export class TutorSessionsComponent implements OnInit {
   sessions: Session[] = [];
   loading = true;
   error = '';
@@ -23,18 +23,18 @@ export class UserSessionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const userId = params['id'];
-      if (userId) {
-        this.loadSessions(userId);
+      const tutorId = params['id'];
+      if (tutorId) {
+        this.loadSessions(tutorId);
       } else {
-        this.error = 'No user ID provided';
+        this.error = 'No tutor ID provided';
         this.loading = false;
       }
     });
   }
 
-  loadSessions(userId: number): void {
-    this.sessionService.getSessionsByUser(userId).subscribe({
+  loadSessions(tutorId: number): void {
+    this.sessionService.getSessionsByTutor(tutorId).subscribe({
       next: (response: any) => {
         this.sessions = response.data;
         this.loading = false;

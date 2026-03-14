@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TutorService } from '../../core/services/tutor.service';
+import { TutorService } from '../../../core/services/tutor.service';
 
 @Component({
   selector: 'app-tutor-registration',
