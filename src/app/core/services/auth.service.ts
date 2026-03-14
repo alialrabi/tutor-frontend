@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap, switchMap, map, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
-import { 
+import {OAuthService, OAuthSuccessEvent} from 'angular-oauth2-oidc';
+import {
   ApiResponse, 
   LoginRequest, 
   RegisterRequest, 
@@ -11,6 +12,7 @@ import {
   LoginResponseData, 
   AuthenticatedUser 
 } from '../../shared/models/auth.models';
+import {authConfig} from "../config/auth.config";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -18,11 +20,14 @@ export class AuthService {
   private readonly API = '/api/auth';
   private readonly TOKEN_KEY = 'tutor_token';
   private readonly USER_KEY = 'tutor_user';
+  private discoveryLoaded = false;
 
   private currentUserSubject: BehaviorSubject<AuthenticatedUser | null>;
   currentUser$: Observable<AuthenticatedUser | null>;
 
+
   constructor(
+      private oauthService: OAuthService,
     private http: HttpClient,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -31,10 +36,14 @@ export class AuthService {
     this.currentUser$ = this.currentUserSubject.asObservable();
   }
 
+
+  registerWithGoogle() {
+
+  }
+
   register(data: RegisterRequest): Observable<AuthenticatedUser> {
     return this.http.post<ApiResponse<any>>(`${this.URL}${this.API}/register`, data).pipe(
       switchMap(() => {
-        // After successful registration, automatically log the user in
         const loginData: LoginRequest = { email: data.email, password: data.password };
         return this.login(loginData);
       })
@@ -43,19 +52,90 @@ export class AuthService {
 
   login(data: LoginRequest): Observable<AuthenticatedUser> {
     return this.http.post<ApiResponse<LoginResponseData>>(`${this.URL}${this.API}/login`, data).pipe(
-      map(response => {
-        if (response.responseStatus === 'SUCCESS' || response.responseStatus === '0') {
-          const token = response.data.token;
-          const user: any = response?.data; // Assuming user data is returned here as well, or fetch it separately
-          
+      switchMap(response => {
+        console.log(response);
+        return this.handleAuthResponse(response)
+      })
+    );
+  }
+
+
+  async initOAuth(): Promise<void> {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    this.oauthService.configure(authConfig);
+
+    // ✅ This is where handleOAuth2Login gets called
+    this.oauthService.events.subscribe(event => {
+      if (event instanceof OAuthSuccessEvent && event.type === 'token_received') {
+        const googleIdToken = this.oauthService.getIdToken();
+        if (googleIdToken) {
+          this.handleOAuth2Login(googleIdToken).subscribe({
+            next: () => this.router.navigate(['/dashboard'], { replaceUrl: true }),
+            error: (err) => this.handleOAuthError(err)
+          });
+        }
+      }
+    });
+
+    await this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    this.discoveryLoaded = true;
+  }
+
+  private handleOAuthError(err: any): void {
+    // ✅ extract message from your GenericResponseEntity error shape
+    const message =
+        'Google login failed. Please try again.';
+
+    // ✅ reset OAuth state so next attempt works fresh
+    this.discoveryLoaded = false;
+    this.oauthService.logOut(true);
+
+    // ✅ redirect to login with error message as query param
+    this.router.navigate(['/auth/login'], {
+      replaceUrl: true,
+      queryParams: { error: message }
+    });
+  }
+
+  handleOAuth2Login(googleIdToken: string): Observable<AuthenticatedUser> {
+    return this.http.post<ApiResponse<LoginResponseData>>(
+        `${this.URL}${this.API}/google`,
+        { idToken: googleIdToken }  // ✅ matches body.get("token")
+    ).pipe(
+        switchMap(response => {
+          console.log(response);
+          return this.handleAuthResponse(response)
+        })
+    );
+  }
+
+  async loginWithGoogle(): Promise<void> {
+    if (!this.discoveryLoaded) {
+      await this.initOAuth();
+    }
+    this.oauthService.initCodeFlow();
+  }
+
+  // Used for OAuth2 redirect flow
+
+  private handleAuthResponse(response: ApiResponse<LoginResponseData>): Observable<AuthenticatedUser> {
+    if (response.responseStatus === 'SUCCESS' || response.responseStatus === '0') {
+      const token = response.data.token;
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem(this.TOKEN_KEY, token);
+      }
+      return this.getProfile().pipe(
+        map(profileResponse => {
+          const user = profileResponse.data;
           const authUser: AuthenticatedUser = { token, user };
           this.storeAuth(authUser);
           return authUser;
-        } else {
-          throw new Error(response.traceError || 'Login failed');
-        }
-      })
-    );
+        })
+      );
+    } else {
+      throw new Error(response.traceError || 'Authentication failed');
+    }
   }
 
   getProfile(): Observable<ApiResponse<UserProfile>> {
@@ -79,6 +159,11 @@ export class AuthService {
       localStorage.removeItem(this.TOKEN_KEY);
       localStorage.removeItem(this.USER_KEY);
     }
+
+    this.oauthService.revokeTokenAndLogout();
+    this.oauthService.logOut(true); // true = no redirect to Google logout page
+    this.discoveryLoaded = false;   // ✅ force re-init on next login attempt
+
     this.currentUserSubject.next(null);
     this.router.navigate(['/auth/login']);
   }

@@ -9,6 +9,7 @@ import { AuthService } from '../../../core/services/auth.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
+  styleUrl: 'register.component.css'
 })
 export class RegisterComponent {
   form: FormGroup;
@@ -30,6 +31,10 @@ export class RegisterComponent {
 
   setRole(role: string): void {
     this.form.patchValue({ role });
+  }
+
+  registerWithGoogle() {
+    this.authService.loginWithGoogle();
   }
 
   onSubmit(): void {

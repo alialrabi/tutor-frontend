@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, guestGuard } from './core/guards/auth.guard';
+import { authGuard } from './core/guards/auth.guard';
 import { HomeComponent } from "./home/home.component";
 
 export const routes: Routes = [
@@ -8,6 +8,10 @@ export const routes: Routes = [
         path: '',
         redirectTo: 'home',
         pathMatch: 'full'
+    },
+    {
+        path: 'oauth2/redirect',
+        loadComponent: () => import('./features/auth/oauth2-redirect-handler/oauth2-redirect-handler.component').then(m => m.OAuth2RedirectHandlerComponent)
     },
     {
         path: 'auth',
@@ -23,7 +27,6 @@ export const routes: Routes = [
             {
                 path: 'upload-photo',
                 loadComponent: () => import('./features/auth/photo-upload/photo-upload.component').then(m => m.PhotoUploadComponent),
-                canActivate: [authGuard]
             },
             { path: '', redirectTo: 'login', pathMatch: 'full' }
         ]
@@ -34,7 +37,6 @@ export const routes: Routes = [
             {
                 path: 'register',
                 loadComponent: () => import('./features/tutor/tutor-registration/tutor-registration.component').then(m => m.TutorRegistrationComponent),
-                canActivate: [authGuard]
             }
         ]
     },

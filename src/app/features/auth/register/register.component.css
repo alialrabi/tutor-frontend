@@ -1,0 +1,48 @@
+.divider {
+  text-align: center;
+  margin: 24px 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: var(--border);
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.btn-google {
+  background: var(--white);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.btn-google:hover {
+  background: var(--surface);
+  border-color: var(--accent);
+}
+
+.btn-google img {
+  width: 20px;
+  height: 20px;
+}

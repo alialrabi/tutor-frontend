@@ -47,7 +47,8 @@ export interface UserProfile {
   status: number;
   roles: string[];
   permissions: string[];
-  image: number[]
+  image: number[],
+  provider: string
 }
 
 /**
