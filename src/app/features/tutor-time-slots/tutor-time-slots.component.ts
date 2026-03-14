@@ -27,9 +27,11 @@ export class TutorTimeSlotsComponent implements OnInit {
 
   loadTutorAvailability(): void {
     this.loading = true;
+    // Assuming tutorId=1 for now. This would be dynamic in a real app.
     this.timeSlotService.getTutorTimeSlotsByTutorId(1).subscribe({
       next: (response: any) => {
-        this.processSlots(response.data);
+        const slots = response.data || [];
+        this.processSlots(slots);
         this.loading = false;
       },
       error: (err) => {
@@ -41,33 +43,30 @@ export class TutorTimeSlotsComponent implements OnInit {
   }
 
   private processSlots(slots: TimeSlotDto[]): void {
-    const schedules: DailySchedule[] = [];
-    const today = new Date();
-    
+    if (!slots || slots.length === 0) {
+      this.dailySchedules = [];
+      return;
+    }
+
+    // Group slots by the date string provided in the API response.
     const slotsByDate: { [key: string]: TimeSlotDto[] } = {};
-    if (slots) {
-      for (const slot of slots) {
-        const date = slot.date;
-        if (!slotsByDate[date]) {
-          slotsByDate[date] = [];
-        }
-        slotsByDate[date].push(slot);
+    for (const slot of slots) {
+      const dateKey = slot.date;
+      if (!slotsByDate[dateKey]) {
+        slotsByDate[dateKey] = [];
       }
+      slotsByDate[dateKey].push(slot);
     }
 
-    for (let i = 0; i < 7; i++) {
-      const nextDay = new Date(today);
-      nextDay.setDate(today.getDate() + i);
-      const dateString = nextDay.toISOString().split('T')[0];
+    // Create schedule objects directly from the grouped data.
+    const schedules: DailySchedule[] = Object.keys(slotsByDate).map(date => {
+      return {
+        date: date,
+        slots: slotsByDate[date].sort((a, b) => a.startTime.localeCompare(b.startTime))
+      };
+    });
 
-      const daySlots = slotsByDate[dateString] || [];
-      
-      schedules.push({
-        date: dateString,
-        slots: daySlots.sort((a, b) => a.startTime.localeCompare(b.startTime))
-      });
-    }
-    
-    this.dailySchedules = schedules;
+    // Sort the entire schedule by date to ensure chronological order.
+    this.dailySchedules = schedules.sort((a, b) => a.date.localeCompare(b.date));
   }
 }
