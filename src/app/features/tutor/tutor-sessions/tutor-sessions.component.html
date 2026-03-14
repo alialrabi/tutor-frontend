@@ -18,14 +18,13 @@
     <div *ngFor="let session of sessions" class="list-group-item list-group-item-action flex-column align-items-start mb-3 border shadow-sm">
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">Session with {{ session.userProfile.firstName }} {{ session.userProfile.lastName }}</h5>
-        <small>{{ session.timeSlot.startTime | date:'longDate' }}</small>
+        <small>{{ session.startTime | date:'longDate' }}</small>
       </div>
       <p class="mb-1">
-        <strong>Time:</strong> {{ session.timeSlot.startTime | date:'shortTime' }} - {{ session.timeSlot.endTime | date:'shortTime' }}
+        <strong>Time:</strong> {{ session.startTime | date:'shortTime' }} - {{ session.endTime | date:'shortTime' }}
       </p>
       <div class="d-flex justify-content-between align-items-center mt-2">
-        <small><strong>Status:</strong> <span class="badge" [ngClass]="{'bg-success': session.status === 'CONFIRMED', 'bg-warning': session.status === 'PENDING', 'bg-danger': session.status === 'CANCELLED'}">{{ session.status }}</span></small>
-        <a class="btn btn-sm btn-success" [routerLink]="['/video-stream']" [queryParams]="{ sessionId: session.timeSlot.id }">Start Call</a>
+        <a class="btn btn-sm btn-success" [routerLink]="['/video-stream']" [queryParams]="{ sessionId: session.id }">Start Call</a>
       </div>
     </div>
   </div>

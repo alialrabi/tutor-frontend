@@ -5,11 +5,14 @@ import { TimeSlot } from './time-slot.service';
 import { Tutor, UserProfile } from '../../shared/models/tutor.model';
 
 export interface Session {
+  id: number; // Assuming a top-level ID for the session
   tutorId: number;
   tutor: Tutor;
   userProfile: UserProfile;
-  timeSlot: TimeSlot;
-  status: string;
+  roomId: string | null;
+  date: string;
+  startTime: string;
+  endTime: string;
 }
 
 export interface CreateSessionRequest {

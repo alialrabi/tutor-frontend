@@ -49,4 +49,5 @@ export class UserSessionsComponent implements OnInit {
   joinCall(sessionId: number): void {
     this.router.navigate(['/video-stream'], { queryParams: { sessionId } });
   }
+
 }
