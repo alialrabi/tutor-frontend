@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TimeSlotService, TimeSlotDto } from '../../../core/services/time-slot.service';
+import { SessionService, CreateSessionRequest } from '../../../core/services/session.service';
 
 interface DailySchedule {
   date: string;
@@ -19,7 +20,10 @@ export class TutorTimeSlotsComponent implements OnInit {
   loading = true;
   error = '';
 
-  constructor(private timeSlotService: TimeSlotService) { }
+  constructor(
+    private timeSlotService: TimeSlotService,
+    private sessionService: SessionService
+  ) { }
 
   ngOnInit(): void {
     this.loadTutorAvailability();
@@ -68,5 +72,27 @@ export class TutorTimeSlotsComponent implements OnInit {
 
     // Sort the entire schedule by date to ensure chronological order.
     this.dailySchedules = schedules.sort((a, b) => a.date.localeCompare(b.date));
+  }
+
+  bookSession(slot: TimeSlotDto): void {
+    if (confirm(`Are you sure you want to book the session from ${slot.startTime.slice(0,5)} to ${slot.endTime.slice(0,5)}?`)) {
+      const request: CreateSessionRequest = {
+        date: slot.date,
+        startTime: slot.startTime,
+        endTime: slot.endTime,
+        tutorId: slot.tutorId
+      };
+
+      this.sessionService.createSession(request).subscribe({
+        next: () => {
+          alert('Session booked successfully!');
+          this.loadTutorAvailability(); // Refresh the schedule
+        },
+        error: (err) => {
+          alert('Failed to book session. Please try again.');
+          console.error(err);
+        }
+      });
+    }
   }
 }

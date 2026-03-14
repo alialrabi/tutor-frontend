@@ -24,7 +24,7 @@
         <div class="slots-list">
           <div *ngIf="schedule.slots.length > 0; else noSlots">
             <div *ngFor="let slot of schedule.slots" class="slot-item">
-              <button class="btn btn-outline-primary w-100" [disabled]="slot.isReserved">
+              <button class="btn btn-outline-primary w-100" [disabled]="slot.isReserved" (click)="bookSession(slot)">
                 {{ slot.startTime | slice:0:5 }} - {{ slot.endTime | slice:0:5 }}
               </button>
             </div>
