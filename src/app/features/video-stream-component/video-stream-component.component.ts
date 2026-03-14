@@ -24,7 +24,9 @@ export class VideoStreamComponentComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    debugger
     this.route.params.subscribe(params => {
+      debugger
       const sessionId = params['id'];
       if (sessionId) {
         this.videoService.createRoom(sessionId).subscribe({
