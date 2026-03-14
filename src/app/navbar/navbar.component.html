@@ -1,6 +1,7 @@
 <header class="topbar">
-    <a routerLink="/" class="topbar-logo">Tutor<span>.</span></a>
     <div class="topbar-nav">
+        <a *ngIf="tutorId" routerLink="/tutor-home" class="nav-link">Home</a>
+        <a *ngIf="!tutorId && userId" routerLink="/" class="nav-link">Home</a>
         <a *ngIf="tutorId" routerLink="/create-time-slot" class="nav-link">Set Availability</a>
         <a *ngIf="tutorId" [routerLink]="['/sessions/tutor', tutorId]" class="nav-link">My Sessions</a>
         <a *ngIf="!tutorId && userId" [routerLink]="['/sessions/user', userId]" class="nav-link">My Sessions</a>

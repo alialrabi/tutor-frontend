@@ -1,0 +1,61 @@
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Unified link styles */
+.topbar-logo,
+.nav-link {
+  font-size: 1.1rem; /* Consistent font size */
+  font-weight: 600; /* Consistent font weight */
+  color: #333;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+  padding: 0.5rem 0; /* Add some padding for better spacing */
+}
+
+.topbar-logo:hover,
+.nav-link:hover {
+  color: #0d6efd;
+}
+
+/* Specific style for the logo's dot */
+.topbar-logo span {
+  color: #0d6efd;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 2rem; /* Increased gap for better separation */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.topbar-name {
+  font-weight: 500;
+}
+
+.btn-logout {
+  background-color: transparent;
+  border: none;
+  color: #555;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.btn-logout:hover {
+  color: #0d6efd;
+}
