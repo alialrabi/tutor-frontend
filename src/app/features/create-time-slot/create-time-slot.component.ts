@@ -141,11 +141,11 @@ export class CreateTimeSlotComponent implements OnInit {
       }
     });
 
-    if (requests.length === 0) {
+    /*if (requests.length === 0) {
       this.errorMessage = 'Please select at least one time slot.';
       this.loading = false;
       return;
-    }
+    }*/
 
     this.timeSlotService.createTimeSlots(requests).subscribe({
       next: () => {
