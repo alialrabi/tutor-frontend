@@ -1,61 +1,117 @@
-.topbar {
+.navbar-preply {
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+
+.container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #fff;
-  border-bottom: 1px solid #e0e0e0;
+  width: 100%;
 }
 
-/* Unified link styles */
-.topbar-logo,
-.nav-link {
-  font-size: 1.1rem; /* Consistent font size */
-  font-weight: 600; /* Consistent font weight */
-  color: #333;
-  text-decoration: none;
-  transition: color 0.2s ease-in-out;
-  padding: 0.5rem 0; /* Add some padding for better spacing */
-}
-
-.topbar-logo:hover,
-.nav-link:hover {
-  color: #0d6efd;
-}
-
-/* Specific style for the logo's dot */
-.topbar-logo span {
-  color: #0d6efd;
-}
-
-.topbar-nav {
-  display: flex;
-  gap: 2rem; /* Increased gap for better separation */
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.topbar-user {
+.navbar-left, .navbar-right {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
-.topbar-name {
+.navbar-brand {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #00bbff; /* New accent color */
+  text-decoration: none;
+}
+
+.navbar-brand span {
+  color: #333;
+}
+
+.navbar-nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  font-size: 1rem;
   font-weight: 500;
+  color: #555;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #00bbff;
+}
+
+.nav-link.become-tutor {
+  font-weight: 600;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-left: 1.5rem;
+  border-left: 1px solid #e0e0e0;
+}
+
+.user-name {
+  font-weight: 600;
 }
 
 .btn-logout {
-  background-color: transparent;
+  background: none;
   border: none;
   color: #555;
-  font-size: 1rem;
-  font-weight: 500;
   cursor: pointer;
-  transition: color 0.2s ease-in-out;
+  font-size: 1.2rem;
+  padding: 0;
+  line-height: 1;
 }
 
 .btn-logout:hover {
-  color: #0d6efd;
+  color: #00bbff;
+}
+
+.btn-primary {
+  background-color: #00bbff;
+  border-color: #00bbff;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #00a2e0;
+  border-color: #00a2e0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .navbar-nav, .nav-link.become-tutor {
+    display: none; /* Hide some links on smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-preply {
+    padding: 0 1rem;
+  }
+  .user-menu {
+    padding-left: 0.75rem;
+  }
+  .navbar-left, .navbar-right {
+    gap: 1rem;
+  }
 }

@@ -1,15 +1,36 @@
-<header class="topbar">
-    <div class="topbar-nav">
-        <a *ngIf="tutorId" routerLink="/tutor-home" class="nav-link">Home</a>
-        <a *ngIf="!tutorId && userId" routerLink="/" class="nav-link">Home</a>
-        <a *ngIf="tutorId" routerLink="/create-time-slot" class="nav-link">Set Availability</a>
-        <a *ngIf="tutorId" [routerLink]="['/sessions/tutor', tutorId]" class="nav-link">My Sessions</a>
-        <a *ngIf="!tutorId && userId" [routerLink]="['/sessions/user', userId]" class="nav-link">My Sessions</a>
+<header class="navbar-preply">
+  <div class="container">
+    <div class="navbar-left">
+      <a routerLink="/" class="navbar-brand">Tutor</a>
+      <nav class="navbar-nav">
+          <a routerLink="/" class="nav-link">Find Tutors</a></nav>
+        <nav class="navbar-nav">
+          <a *ngIf="tutorId" [routerLink]="['/sessions/tutor']" class="nav-link">My Sessions</a>
+        </nav>
+        <nav class="navbar-nav">
+          <a *ngIf="!tutorId" [routerLink]="['/sessions/user', userId]" class="nav-link">My Sessions</a>
+        </nav>
+        <nav class="navbar-nav">
+            <a *ngIf="tutorId" routerLink="/create-time-slot" class="nav-link">Availability</a>
+      </nav>
+        <nav class="navbar-nav">
+            <a *ngIf="!tutorId" routerLink="/tutor/register" class="nav-link become-tutor">Become a Tutor</a>
+        </nav>
     </div>
-    <div class="topbar-user">
-        <div>
-            <div class="topbar-name">{{ currentUser?.user?.firstName }} {{ currentUser?.user?.lastName }}</div>
+
+    <div class="navbar-right">
+      <ng-container *ngIf="currentUser">
+
+        <div class="user-menu">
+          <span class="user-name">{{ currentUser?.user?.firstName }}</span>
+          <button class="btn-logout" (click)="logout()"><i class="bi bi-box-arrow-right"></i></button>
         </div>
-        <button class="btn-logout" (click)="logout()">Sign out</button>
+      </ng-container>
+
+      <ng-container *ngIf="!currentUser">
+        <a routerLink="/auth/login" class="nav-link">Log in</a>
+        <a routerLink="/auth/register" class="btn btn-primary">Sign up</a>
+      </ng-container>
     </div>
+  </div>
 </header>
