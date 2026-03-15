@@ -1,0 +1,46 @@
+
+<div class="auth-layout">
+    <div class="auth-panel">
+        <div class="panel-logo">Tutor<span>.</span></div>
+        <div class="panel-headline">Connect with expert tutors</div>
+        <p class="panel-sub">Learn anything, anywhere. Join thousands of students and tutors already on our platform.</p>
+    </div>
+
+    <div class="auth-form-side">
+        <div class="auth-card">
+            <div class="auth-card-title">Welcome back</div>
+            <p class="auth-card-sub">Sign in to your account to continue</p>
+
+            <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="field">
+                    <label for="email">Email address</label>
+                    <input id="email" type="email" formControlName="email" placeholder="you@example.com" autocomplete="email">
+                </div>
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" formControlName="password" placeholder="••••••••" autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary" [disabled]="loading || form.invalid">
+                    <span *ngIf="loading" class="spinner"></span>
+                    {{ loading ? 'Signing in…' : 'Sign in' }}
+                </button>
+            </form>
+
+            <div class="divider">OR</div>
+
+            <div *ngIf="oauthError" class="alert alert-danger d-flex align-items-center gap-2">
+                <span>⚠️</span>
+                <span>{{ oauthError }}</span>
+            </div>
+
+            <button (click)="signInWithGoogle()" class="btn btn-google">
+                <img src="assets/google-logo.svg" alt="Google logo" />
+                Sign in with Google
+            </button>
+
+            <p class="auth-switch">Don't have an account? <a routerLink="/auth/register">Create one</a></p>
+        </div>
+    </div>
+</div>
