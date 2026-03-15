@@ -12,7 +12,7 @@
       <form [formGroup]="tutorForm" (ngSubmit)="onSubmit()">
         <div class="field">
           <label for="email">Email</label>
-          <input id="email" type="email" formControlName="email" readonly>
+          <input id="email" type="email" formControlName="email" [value]="currentUser?.email" readonly>
         </div>
 
         <div class="field">

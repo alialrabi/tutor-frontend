@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TutorService } from '../../../core/services/tutor.service';
+import {UserProfile} from "../../../shared/models/auth.models";
+import {AuthService} from "../../../core/services/auth.service";
+import {switchMap, tap} from "rxjs";
 
 @Component({
   selector: 'app-tutor-registration',
@@ -19,7 +22,8 @@ export class TutorRegistrationComponent implements OnInit {
     private fb: FormBuilder,
     private tutorService: TutorService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService,
   ) {
     this.tutorForm = this.fb.group({
       email: [{value: '', disabled: true}, [Validators.required, Validators.email]],
@@ -30,15 +34,21 @@ export class TutorRegistrationComponent implements OnInit {
       acceptsOneToMany: [false, Validators.required],
       videoId: [''] // Optional
     });
+
   }
 
+  currentUser?: UserProfile;
+
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.email = params['email'] || '';
-      if (this.email) {
-        this.tutorForm.patchValue({ email: this.email });
-      }
-    });
+    this.authService.getProfile().subscribe(profile => {
+      this.currentUser = profile.data;
+      this.tutorForm.patchValue({
+        email: this.currentUser.email
+      });
+      this.tutorForm.patchValue({
+        userId:this.currentUser.id
+      })
+    })
   }
 
   onSubmit(): void {
@@ -48,6 +58,7 @@ export class TutorRegistrationComponent implements OnInit {
       // Construct the full Tutor object with default values
       const tutorData = {
         ...formValue,
+        userId: this.currentUser?.id,
         rating: 0,
         totalReviews: 0,
         status: 0,

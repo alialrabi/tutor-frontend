@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
 import { AuthenticatedUser } from '../shared/models/auth.models';
+import {email} from "@angular/forms/signals";
 
 @Component({
   selector: 'app-navbar',
@@ -35,4 +36,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   logout(): void {
     this.authService.logout();
   }
+
+  protected readonly email = email;
 }
