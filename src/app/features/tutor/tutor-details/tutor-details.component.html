@@ -1,104 +1,121 @@
-<div class="container my-5" *ngIf="tutor">
+<div class="container my-5">
+  @if (tutor) {
     <div class="row">
-    <!-- Main Content -->
-    <div class="col-lg-8">
-      <!-- Video Section -->
-      <div class="card shadow-sm border-0 mb-4">
-        <div class="card-body p-4">
-          <div *ngIf="youtubeLink" class="ratio ratio-16x9 rounded-3">
-            <iframe [src]="youtubeLink | safeUrl" title="Tutor Introduction" allowfullscreen></iframe>
+      <!-- Main Content -->
+      <div class="col-lg-8">
+        <!-- Video Section -->
+        <div class="card shadow-sm border-0 mb-4">
+          <div class="card-body p-4">
+            @if (youtubeLink) {
+              <div class="ratio ratio-16x9 rounded-3">
+                <iframe [src]="youtubeLink | safeUrl" title="Tutor Introduction" allowfullscreen></iframe>
+              </div>
+            } @else {
+              <div class="text-center p-5 bg-light rounded-3">
+                <i class="bi bi-camera-video-off-fill display-4 text-muted"></i>
+                <p class="mt-3">No introduction video available.</p>
+              </div>
+            }
           </div>
-          <div *ngIf="!youtubeLink" class="text-center p-5 bg-light rounded-3">
-            <i class="bi bi-camera-video-off-fill display-4 text-muted"></i>
-            <p class="mt-3">No introduction video available.</p>
+        </div>
+
+        <!-- About Section -->
+        <div class="card shadow-sm border-0 mb-4">
+          <div class="card-body p-4">
+            <h2 class="h4 fw-bold mb-3">About {{ tutor?.userProfile?.firstName }}</h2>
+            <p class="text-secondary" style="line-height: 1.7;">
+              {{ tutor?.bio }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4">
+            <h2 class="h4 fw-bold mb-4">What students are saying</h2>
+
+            @if (comments.length === 0) {
+              <div class="text-muted fst-italic">
+                No comments have been left for this tutor yet.
+              </div>
+            } @else {
+              @for (comment of comments; track comment.userProfile.email) {
+                <div class="comment-item mb-4 pb-3 border-bottom">
+                  <div class="d-flex align-items-center mb-2">
+                    <div class="comment-avatar me-3">
+                      {{ comment.userProfile.firstName.charAt(0) }}
+                    </div>
+                    <div>
+                      <h6 class="fw-bold mb-0">{{ comment.userProfile.firstName }} {{ comment.userProfile.lastName }}</h6>
+                      <small class="text-muted">{{ comment.userProfile.email }}</small>
+                    </div>
+                  </div>
+                  <p class="comment-content text-secondary mb-0 ps-5">{{ comment.content }}</p>
+                </div>
+              }
+            }
           </div>
         </div>
       </div>
 
-      <!-- About Section -->
-      <div class="card shadow-sm border-0 mb-4">
-        <div class="card-body p-4">
-          <h2 class="h4 fw-bold mb-3">About {{ tutor?.userProfile?.firstName }}</h2>
-          <p class="text-secondary" style="line-height: 1.7;">
-            {{ tutor?.bio }}
-          </p>
-        </div>
-      </div>
-
-      <!-- Reviews Section -->
-      <div class="card shadow-sm border-0">
-        <div class="card-body p-4">
-          <h2 class="h4 fw-bold mb-4">Reviews ({{ tutor?.totalReviews }})</h2>
-          <!-- Placeholder for reviews -->
-          <div class="d-flex align-items-center mb-3 border-bottom pb-3">
-            <img src="https://i.pravatar.cc/50?img=1" alt="Reviewer" class="rounded-circle me-3">
-            <div>
-              <h6 class="fw-bold mb-0">Jane Doe</h6>
-              <div class="text-warning">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-half"></i>
+      <!-- Sticky Booking Card -->
+      <div class="col-lg-4">
+        <div class="card shadow-sm border-0 sticky-card">
+          <div class="card-body p-4">
+            <div class="text-center mb-3">
+              <img [src]="'assets/default-avatar.png'" alt="{{ tutor?.userProfile?.firstName }}" class="rounded-circle img-fluid" style="width: 120px; height: 120px; object-fit: cover;">
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="h5 fw-bold mb-0">{{ tutor?.userProfile?.firstName }} {{ tutor?.userProfile?.lastName }}</h3>
+              <div class="text-warning fw-bold">
+                <i class="bi bi-star-fill"></i> {{ tutor?.rating }}
               </div>
             </div>
-          </div>
-          <p class="text-secondary">"An amazing tutor! Very patient and knowledgeable. I've learned so much in just a few sessions."</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sticky Booking Card -->
-    <div class="col-lg-4">
-      <div class="card shadow-sm border-0 sticky-card">
-        <div class="card-body p-4">
-          <div class="text-center mb-3">
-            <img [src]="'assets/default-avatar.png'" alt="{{ tutor?.userProfile?.firstName }}" class="rounded-circle img-fluid" style="width: 120px; height: 120px; object-fit: cover;">
-          </div>
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="h5 fw-bold mb-0">{{ tutor?.userProfile?.firstName }} {{ tutor?.userProfile?.lastName }}</h3>
-            <div class="text-warning fw-bold">
-              <i class="bi bi-star-fill"></i> {{ tutor?.rating }}
+            <div class="text-center mb-4">
+              <span class="display-4 fw-bolder">${{ tutor?.hourlyRate }}</span>
+              <span class="text-muted">/ hour</span>
             </div>
-          </div>
-          <div class="text-center mb-4">
-            <span class="display-4 fw-bolder">${{ tutor?.hourlyRate }}</span>
-            <span class="text-muted">/ hour</span>
-          </div>
 
-          <div class="d-grid gap-2">
-            <button class="btn btn-primary btn-lg fw-bold" [routerLink]="['/time-slots']">Book a session</button>
-            <button class="btn btn-outline-secondary fw-bold">Message</button>
+            <div class="d-grid gap-2">
+              <button class="btn btn-primary btn-lg fw-bold" [routerLink]="['/time-slots']">Book a session</button>
+              <button class="btn btn-outline-secondary fw-bold">Message</button>
+            </div>
+
+            <hr class="my-4">
+
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                Accepts One-to-One
+                <i class="bi" [class.bi-check-circle-fill]="tutor?.acceptsOneToOne" [class.text-success]="tutor?.acceptsOneToOne" [class.bi-x-circle-fill]="!tutor?.acceptsOneToOne" [class.text-danger]="!tutor?.acceptsOneToOne"></i>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                Accepts Group Sessions
+                <i class="bi" [class.bi-check-circle-fill]="tutor?.acceptsOneToMany" [class.text-success]="tutor?.acceptsOneToMany" [class.bi-x-circle-fill]="!tutor?.acceptsOneToMany" [class.text-danger]="!tutor?.acceptsOneToMany"></i>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                Total Reviews
+                <span class="badge bg-light text-dark rounded-pill">{{ tutor?.totalReviews }}</span>
+              </li>
+            </ul>
           </div>
-
-          <hr class="my-4">
-
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-              Accepts One-to-One
-              <i class="bi" [class.bi-check-circle-fill]="tutor?.acceptsOneToOne" [class.text-success]="tutor?.acceptsOneToOne" [class.bi-x-circle-fill]="!tutor?.acceptsOneToOne" [class.text-danger]="!tutor?.acceptsOneToOne"></i>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-              Accepts Group Sessions
-              <i class="bi" [class.bi-check-circle-fill]="tutor?.acceptsOneToMany" [class.text-success]="tutor?.acceptsOneToMany" [class.bi-x-circle-fill]="!tutor?.acceptsOneToMany" [class.text-danger]="!tutor?.acceptsOneToMany"></i>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-              Total Reviews
-              <span class="badge bg-light text-dark rounded-pill">{{ tutor?.totalReviews }}</span>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
-  </div>
-</div>
+  }
 
-<!-- Loading and Error States -->
-<div *ngIf="loading || error" class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-  <div *ngIf="loading" class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  <div *ngIf="error" class="alert alert-danger">
-    {{ error }}
-  </div>
+  <!-- Loading and Error States -->
+  @if (loading || error) {
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+      @if (loading) {
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      }
+      @if (error) {
+        <div class="alert alert-danger">
+          {{ error }}
+        </div>
+      }
+    </div>
+  }
 </div>

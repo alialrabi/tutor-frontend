@@ -66,7 +66,7 @@ export class AuthService {
     this.oauthService.configure(authConfig);
 
     // ✅ This is where handleOAuth2Login gets called
-    this.oauthService.events.subscribe(event => {
+    this.oauthService.events.subscribe((event: any) => {
       if (event instanceof OAuthSuccessEvent && event.type === 'token_received') {
         const googleIdToken = this.oauthService.getIdToken();
         if (googleIdToken) {

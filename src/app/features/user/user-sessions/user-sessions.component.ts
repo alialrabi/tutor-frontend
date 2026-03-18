@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Session, SessionService } from '../../../core/services/session.service';
 import { CommonModule } from '@angular/common';
+import {ApiResponse} from "../../../shared/models/auth.models";
 
 @Component({
   selector: 'app-user-sessions',
@@ -18,12 +19,14 @@ export class UserSessionsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private sessionService: SessionService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const userId = params['id'];
+      console.log(userId)
       if (userId) {
         this.loadSessions(userId);
       } else {
@@ -35,13 +38,16 @@ export class UserSessionsComponent implements OnInit {
 
   loadSessions(userId: number): void {
     this.sessionService.getSessionsByUser(userId).subscribe({
-      next: (response: any) => {
+      next: (response: ApiResponse<Session[]>) => {
         this.sessions = response.data;
         this.loading = false;
+        console.log('>>>>>>>>>>>>>>', this.loading)
+        this.cdr.detectChanges();
       },
-      error: (err) => {
+      error: (err: any) => {
         this.error = 'Failed to load sessions';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TimeSlot } from './time-slot.service';
 import { Tutor, UserProfile } from '../../shared/models/tutor.model';
+import {ApiResponse} from "../../shared/models/auth.models";
 
 export interface Session {
   id: number; // Assuming a top-level ID for the session
@@ -40,8 +41,8 @@ export class SessionService {
     return this.http.get<Session[]>(`${this.URL}${this.API}/list/tutor`, { params });
   }
 
-  getSessionsByUser(id: number): Observable<Session[]> {
+  getSessionsByUser(id: number): Observable<ApiResponse<Session[]>> {
     let params = new HttpParams().set('id', id);
-    return this.http.get<Session[]>(`${this.URL}${this.API}/list/user`, { params });
+    return this.http.get<ApiResponse<Session[]>>(`${this.URL}${this.API}/list/user`, { params });
   }
 }

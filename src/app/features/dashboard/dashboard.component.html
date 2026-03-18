@@ -1,0 +1,103 @@
+@if (loading) {
+  <div class="loading-screen">
+    <div style="display:flex">
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+    </div>
+  </div>
+}
+
+@if (!loading && currentUser) {
+  <div class="dashboard-layout">
+    <main class="dashboard-content">
+      <!-- Welcome Banner -->
+      <div class="welcome-banner">
+        <div class="welcome-title">Welcome back, {{ currentUser.user.firstName }}! 👋</div>
+        <p class="welcome-sub">Here's an overview of your account.</p>
+      </div>
+
+      <!-- Categories Section -->
+      <div class="categories-section mb-5">
+        <h3 class="section-title mb-4">Explore Categories</h3>
+
+        @if (categories.length === 0) {
+          <div class="text-muted">No categories available at the moment.</div>
+        }
+
+        <div class="categories-grid">
+          @for (category of categories; track category.id) {
+            <div class="category-card">
+              <div class="category-icon">
+                <i class="bi bi-book"></i> <!-- Placeholder icon -->
+              </div>
+              <h4 class="category-name">{{ category.name }}</h4>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">{{ currentUser.user.roles?.length || 0 }}</div>
+          <div class="stat-label">Assigned roles</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ currentUser.user.permissions?.length || 0 }}</div>
+          <div class="stat-label">Permissions</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ currentUser.user.status === 0 ? 'Active' : 'Inactive' }}</div>
+          <div class="stat-label">Account status</div>
+        </div>
+      </div>
+
+      <!-- Info cards -->
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-card-title">Profile Information</div>
+          <div class="info-row">
+            <span class="info-key">Email</span>
+            <span class="info-val">{{ currentUser.user.email }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-key">First name</span>
+            <span class="info-val">{{ currentUser.user.firstName }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-key">Last name</span>
+            <span class="info-val">{{ currentUser.user.lastName }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-key">Phone</span>
+            <span class="info-val">{{ currentUser.user.phoneNumber }}</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title">Roles & Permissions</div>
+          <div class="info-row" style="flex-direction:column;align-items:flex-start;gap:8px">
+            <span class="info-key">Roles</span>
+            <div>
+              @for (role of currentUser.user.roles; track role) {
+                <span class="badge badge-role">{{ role }}</span>
+              }
+            </div>
+          </div>
+          <div class="info-row" style="flex-direction:column;align-items:flex-start;gap:8px;margin-top:12px">
+            <span class="info-key">Permissions</span>
+            <div>
+              @for (perm of currentUser.user.permissions; track perm) {
+                <span class="badge badge-perm">{{ perm }}</span>
+              }
+                @if (!currentUser.user.permissions?.length) {
+                <span style="font-size:0.85rem;color:#6b7c72">None assigned</span>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+}
