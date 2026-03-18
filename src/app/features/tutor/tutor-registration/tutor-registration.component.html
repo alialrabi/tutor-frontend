@@ -11,13 +11,8 @@
 
       <form [formGroup]="tutorForm" (ngSubmit)="onSubmit()">
         <div class="field">
-          <label for="email">Email</label>
-          <input id="email" type="email" formControlName="email" [value]="currentUser?.email" readonly>
-        </div>
-
-        <div class="field">
           <label for="bio">Bio / Headline</label>
-          <textarea id="bio" formControlName="bio" placeholder="e.g., Passionate math tutor with 10+ years of experience..." rows="4"></textarea>
+          <textarea id="bio" formControlName="bio" placeholder="E.x., Passionate math tutor with 10+ years of experience..." rows="4"></textarea>
           <div *ngIf="tutorForm.get('bio')?.invalid && tutorForm.get('bio')?.touched" class="field-error">
             A short bio is required.
           </div>

@@ -16,6 +16,13 @@ textarea {
   border: 1.5px solid var(--border);
 }
 
+textarea {
+  width: 100%;
+  border-radius: var(--radius);
+  border: #00bbff solid 1px;
+  height: 40px;
+}
+
 .checkbox-group input[type="checkbox"] {
   width: auto;
   margin-right: 12px;

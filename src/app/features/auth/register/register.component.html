@@ -22,11 +22,11 @@
                 <div class="field">
                     <label>I am a</label>
                     <div class="role-selector">
-                        <div class="role-card" [class.active]="form.value.role === 'STUDENT'" (click)="setRole('STUDENT')">
+                        <div class="role-card" [class.active]="form.value?.userType === 'STUDENT'" (click)="setUserType('STUDENT')">
                             <div class="role-card-icon">🎓</div>
                             <div class="role-card-label">Student</div>
                         </div>
-                        <div class="role-card" [class.active]="form.value.role === 'TUTOR'" (click)="setRole('TUTOR')">
+                        <div class="role-card" [class.active]="form.value?.userType === 'TUTOR'" (click)="setUserType('TUTOR')">
                             <div class="role-card-icon">📚</div>
                             <div class="role-card-label">Tutor</div>
                         </div>

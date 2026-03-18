@@ -23,14 +23,14 @@ export class RegisterComponent {
       email:       ['', [Validators.required, Validators.email]],
       phoneNumber: ['', Validators.required],
       password:    ['', [Validators.required, Validators.minLength(6)]],
-      role:        ['STUDENT']
+      userType:        ['STUDENT']
     });
   }
 
   get f() { return this.form.controls; }
 
-  setRole(role: string): void {
-    this.form.patchValue({ role });
+  setUserType(userType: string): void {
+    this.form.patchValue({ userType });
   }
 
   registerWithGoogle() {
@@ -42,11 +42,11 @@ export class RegisterComponent {
     this.loading = true;
     this.error = '';
 
-    const { role, email } = this.form.value;
+    const { userType, email } = this.form.value;
 
     this.authService.register(this.form.value).subscribe({
       next: () => {
-        if (role === 'TUTOR') {
+        if (userType === 'TUTOR') {
           this.router.navigate(['/tutor/register'], { queryParams: { email } });
         } else {
           this.router.navigate(['/auth/upload-photo']);

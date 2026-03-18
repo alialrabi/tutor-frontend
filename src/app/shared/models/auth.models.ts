@@ -48,7 +48,8 @@ export interface UserProfile {
   roles: string[];
   permissions: string[];
   image: number[],
-  provider: string
+  provider: string,
+  tutorId: number
 }
 
 /**
