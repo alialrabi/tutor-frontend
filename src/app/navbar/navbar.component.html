@@ -14,7 +14,7 @@
             <a *ngIf="tutorId" routerLink="/create-time-slot" class="nav-link">Availability</a>
         </nav>
         <nav class="navbar-nav">
-            <a *ngIf="!tutorId" routerLink="/tutor/register" class="nav-link become-tutor">Become a Tutor</a>
+            <a *ngIf="!tutorId && currentUser" routerLink="/tutor/register" class="nav-link become-tutor">Become a Tutor</a>
         </nav>
     </div>
 
@@ -27,9 +27,9 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="!currentUser">
-        <a routerLink="/auth/login" class="nav-link">Log in</a>
-        <a routerLink="/auth/register" class="btn btn-primary">Sign up</a>
+      <ng-container class="btn-auth-container" *ngIf="!currentUser">
+        <a routerLink="/auth/login" class="btn-auth">Sign in</a>
+        <a routerLink="/auth/register" class="btn-auth btn-primary">Sign up</a>
       </ng-container>
     </div>
   </div>

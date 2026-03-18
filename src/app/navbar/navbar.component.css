@@ -17,6 +17,26 @@
   width: 100%;
 }
 
+.btn-auth-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-auth {
+  display: block;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  letter-spacing: 0.01em;
+
+  text-decoration: none;
+}
 .navbar-left, .navbar-right {
   display: flex;
   align-items: center;

@@ -37,6 +37,7 @@ export const routes: Routes = [
             {
                 path: 'register',
                 loadComponent: () => import('./features/tutor/tutor-registration/tutor-registration.component').then(m => m.TutorRegistrationComponent),
+                canActivate: [authGuard]
             }
         ]
     },
