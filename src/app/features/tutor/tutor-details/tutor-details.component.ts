@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { TutorService } from '../../../core/services/tutor.service';
+import { TutorService, CommentDto } from '../../../core/services/tutor.service';
 import { CommonModule } from '@angular/common';
 import { SafeUrlPipe } from '../../../shared/pipes/safe-url.pipe';
-import {Tutor} from "../../../shared/models/tutor.model";
+import { Tutor } from "../../../shared/models/tutor.model";
 
 @Component({
   selector: 'app-tutor-details',
@@ -14,6 +14,7 @@ import {Tutor} from "../../../shared/models/tutor.model";
 })
 export class TutorDetailsComponent implements OnInit {
   tutor: Tutor | null = null;
+  comments: CommentDto[] = [];
   youtubeLink: string | null = null;
   loading = true;
   error = '';
@@ -28,6 +29,7 @@ export class TutorDetailsComponent implements OnInit {
       const id = params['id'];
       if (id) {
         this.getTutorDetails(id);
+        this.getTutorComments(id);
       } else {
         this.error = 'No tutor ID provided';
         this.loading = false;
@@ -48,6 +50,18 @@ export class TutorDetailsComponent implements OnInit {
         console.error('Error fetching tutor details:', err);
         this.error = 'Failed to load tutor details';
         this.loading = false;
+      }
+    });
+  }
+
+  getTutorComments(id: number): void {
+    this.tutorService.getComments(id).subscribe({
+      next: (response: any) => {
+        this.comments = response.data || [];
+      },
+      error: (err) => {
+        console.error('Error fetching comments:', err);
+        // We don't set the main error message here, as comments might fail but the profile still loads.
       }
     });
   }

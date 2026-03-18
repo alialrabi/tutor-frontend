@@ -62,7 +62,7 @@ export class VideoStreamComponentComponent implements OnInit, OnDestroy {
       .then(() => {
         this.loading = false;
       })
-      .catch(err => {
+      .catch((err:any) => {
         this.error = `Failed to join call: ${err.message}`;
         this.loading = false;
       });

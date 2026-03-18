@@ -62,3 +62,28 @@
   border-bottom-right-radius: inherit;
   border-bottom-left-radius: inherit;
 }
+
+/* Comment Styles */
+.comment-avatar {
+  width: 48px;
+  height: 48px;
+  background-color: #e9ecef;
+  color: #495057;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.comment-item:last-child {
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.comment-content {
+  line-height: 1.6;
+}
