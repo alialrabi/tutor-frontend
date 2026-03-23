@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { CategoryService, CategoryTutorsDto } from '../../core/services/category.service';
+import { FilterRequest } from '../../core/services/search.service';
 import { AuthenticatedUser } from '../../shared/models/auth.models';
 import { Subscription } from 'rxjs';
 
@@ -9,7 +10,8 @@ import { Subscription } from 'rxjs';
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './dashboard.component.html'
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   loading = true;
@@ -32,9 +34,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   loadCategories(): void {
-    this.categoryService.getCategories().subscribe({
-      next: (response: any) => {
-        this.categories = response.data;
+    const request: FilterRequest = {
+      filterList: [],
+      sortCriteria: [],
+      page: 0,
+      size: 10 // Adjust size as needed
+    };
+
+    this.categoryService.getCategories(request).subscribe({
+      next: (data: any) => {
+
+        this.categories = data;
       },
       error: (err) => {
         console.error('Failed to load categories', err);
