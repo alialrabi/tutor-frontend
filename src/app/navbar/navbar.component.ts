@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
 import { AuthenticatedUser } from '../shared/models/auth.models';
-import {email} from "@angular/forms/signals";
 
 @Component({
   selector: 'app-navbar',
@@ -18,13 +17,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private userSubscription: Subscription | undefined;
   tutorId: number | null = null;
   userId: number | null = null;
+  currentLang = 'en'; // Default language is English
+  showLangDropdown = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(public authService: AuthService) {}
 
   ngOnInit(): void {
     this.userSubscription = this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
-      this.tutorId = this.currentUser?.user.tutorId ? this.currentUser?.user.tutorId : null;
+      debugger
+      this.tutorId = this.authService.getTutorIdFromToken();
       this.userId = this.authService.getUserIdFromToken();
     });
   }
@@ -37,5 +39,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.authService.logout();
   }
 
-  protected readonly email = email;
+  toggleLangDropdown(): void {
+    this.showLangDropdown = !this.showLangDropdown;
+  }
+
+  changeLanguage(lang: string): void {
+    this.currentLang = lang;
+    this.showLangDropdown = false;
+    // Here you would typically call a translation service to switch languages
+    console.log('Language changed to:', lang);
+  }
 }

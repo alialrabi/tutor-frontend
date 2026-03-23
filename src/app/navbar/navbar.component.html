@@ -3,34 +3,64 @@
     <div class="navbar-left">
       <a routerLink="/" class="navbar-brand">Tutor</a>
       <nav class="navbar-nav">
-          <a routerLink="/" class="nav-link">Find Tutors</a></nav>
-        <nav class="navbar-nav">
-          <a *ngIf="tutorId" [routerLink]="['/sessions/tutor']" class="nav-link">My Sessions</a>
-        </nav>
-        <nav class="navbar-nav">
-          <a *ngIf="!tutorId" [routerLink]="['/sessions/user', userId]" class="nav-link">My Sessions</a>
-        </nav>
-        <nav class="navbar-nav">
-            <a *ngIf="tutorId" routerLink="/create-time-slot" class="nav-link">Availability</a>
-        </nav>
-        <nav class="navbar-nav">
-            <a *ngIf="!tutorId && currentUser" routerLink="/tutor/register" class="nav-link become-tutor">Become a Tutor</a>
-        </nav>
+        <a routerLink="/" class="nav-link">Find Tutors</a>
+
+        @if (currentUser) {
+          @if (tutorId) {
+            <a [routerLink]="['/sessions/tutor', tutorId]" class="nav-link">My Sessions</a>
+            <a routerLink="/create-time-slot" class="nav-link">Availability</a>
+          } @else {
+            <a [routerLink]="['/sessions/user', userId]" class="nav-link">My Sessions</a>
+          }
+        }
+      </nav>
     </div>
 
     <div class="navbar-right">
-      <ng-container *ngIf="currentUser">
+      @if (!tutorId) {
+        <a routerLink="/tutor/register" class="nav-link become-tutor">Become a Tutor</a>
+      }
 
+      @if (currentUser) {
         <div class="user-menu">
-          <span class="user-name">{{ currentUser?.user?.firstName }}</span>
-          <button class="btn-logout" (click)="logout()"><i class="bi bi-box-arrow-right"></i></button>
-        </div>
-      </ng-container>
+          <!-- Language Dropdown -->
+          <div class="lang-dropdown">
+            <button class="lang-btn" (click)="toggleLangDropdown()">
+              <i class="bi bi-globe"></i>
+              <span>{{ currentLang === 'en' ? 'English' : 'العربية' }}</span>
+              <i class="bi bi-chevron-down"></i>
+            </button>
+            @if (showLangDropdown) {
+              <div class="lang-dropdown-content">
+                <a (click)="changeLanguage('en')">English</a>
+                <a (click)="changeLanguage('ar')">العربية</a>
+              </div>
+            }
+          </div>
 
-      <ng-container class="btn-auth-container" *ngIf="!currentUser">
-        <a routerLink="/auth/login" class="btn-auth">Sign in</a>
-        <a routerLink="/auth/register" class="btn-auth btn-primary">Sign up</a>
-      </ng-container>
+          <div class="separator"></div>
+
+          <button class="btn-logout" (click)="logout()">
+            <i class="bi bi-box-arrow-right"></i> Log out
+          </button>
+        </div>
+      } @else {
+        <div class="lang-dropdown">
+            <button class="lang-btn" (click)="toggleLangDropdown()">
+              <i class="bi bi-globe"></i>
+              <span>{{ currentLang === 'en' ? 'English' : 'العربية' }}</span>
+              <i class="bi bi-chevron-down"></i>
+            </button>
+            @if (showLangDropdown) {
+              <div class="lang-dropdown-content">
+                <a (click)="changeLanguage('en')">English</a>
+                <a (click)="changeLanguage('ar')">العربية</a>
+              </div>
+            }
+          </div>
+        <a routerLink="/auth/login" class="nav-link">Log in</a>
+        <a routerLink="/auth/register" class="btn btn-primary">Sign up</a>
+      }
     </div>
   </div>
 </header>
