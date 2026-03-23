@@ -3,24 +3,25 @@
     <div class="navbar-left">
       <a routerLink="/" class="navbar-brand">Tutor</a>
       <nav class="navbar-nav">
-        <a routerLink="/" class="nav-link">Find Tutors</a>
+        @if (!tutorId) {
+
+        }
 
         @if (currentUser) {
           @if (tutorId) {
             <a [routerLink]="['/sessions/tutor', tutorId]" class="nav-link">My Sessions</a>
             <a routerLink="/create-time-slot" class="nav-link">Availability</a>
+            <a routerLink="/profile" class="nav-link">My Profile</a>
           } @else {
-            <a [routerLink]="['/sessions/user', userId]" class="nav-link">My Sessions</a>
+              <a routerLink="/" class="nav-link">Find Tutors</a>
+              <a [routerLink]="['/sessions/user', userId]" class="nav-link">My Sessions</a>
+              <a routerLink="/tutor/register" class="nav-link become-tutor">Become a Tutor</a>
           }
         }
       </nav>
     </div>
 
     <div class="navbar-right">
-      @if (!tutorId) {
-        <a routerLink="/tutor/register" class="nav-link become-tutor">Become a Tutor</a>
-      }
-
       @if (currentUser) {
         <div class="user-menu">
           <!-- Language Dropdown -->

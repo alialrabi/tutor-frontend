@@ -4,8 +4,11 @@
 }
 
 .search-header-preply h1 {
-  font-weight: 800;
+  font-family: 'Playfair Display', serif; /* Use serif font for main heading */
+  font-size: 3rem; /* Make it large and impactful */
+  font-weight: 700;
   margin-bottom: 1.5rem;
+  color: #333;
 }
 
 .search-bar-wrapper {

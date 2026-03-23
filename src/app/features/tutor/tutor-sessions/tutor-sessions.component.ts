@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Session, SessionService } from '../../../core/services/session.service';
 import { CommonModule } from '@angular/common';
@@ -18,6 +18,7 @@ export class TutorSessionsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private sessionService: SessionService,
+    private cdr: ChangeDetectorRef,
     private router: Router
   ) { }
 
@@ -38,10 +39,12 @@ export class TutorSessionsComponent implements OnInit {
       next: (response: any) => {
         this.sessions = response.data;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.error = 'Failed to load sessions';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

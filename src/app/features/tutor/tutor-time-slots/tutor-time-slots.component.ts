@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TimeSlotService, TimeSlotDto } from '../../../core/services/time-slot.service';
 import { SessionService, CreateSessionRequest } from '../../../core/services/session.service';
+import {ActivatedRoute} from "@angular/router";
 
 interface DailySchedule {
   date: string;
@@ -22,25 +23,39 @@ export class TutorTimeSlotsComponent implements OnInit {
 
   constructor(
     private timeSlotService: TimeSlotService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.loadTutorAvailability();
+    this.route.params.subscribe(params => {
+      const tutorId = params['id'];
+      if (tutorId) {
+        this.loadTutorAvailability(tutorId);
+      } else {
+        this.error = 'No tutor ID provided';
+        this.loading = false;
+      }
+    });
+
+
   }
 
-  loadTutorAvailability(): void {
+  loadTutorAvailability(tutorId: number): void {
     this.loading = true;
     // Assuming tutorId=1 for now. This would be dynamic in a real app.
-    this.timeSlotService.getTutorTimeSlotsByTutorId(1).subscribe({
+    this.timeSlotService.getTutorTimeSlotsByTutorId(tutorId).subscribe({
       next: (response: any) => {
         const slots = response.data || [];
         this.processSlots(slots);
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.error = 'Failed to load tutor availability.';
         this.loading = false;
+        this.cdr.detectChanges();
         console.error(err);
       }
     });
@@ -86,7 +101,7 @@ export class TutorTimeSlotsComponent implements OnInit {
       this.sessionService.createSession(request).subscribe({
         next: () => {
           alert('Session booked successfully!');
-          this.loadTutorAvailability(); // Refresh the schedule
+          this.loadTutorAvailability(slot.tutorId); // Refresh the schedule
         },
         error: (err) => {
           alert('Failed to book session. Please try again.');

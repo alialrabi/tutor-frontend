@@ -60,7 +60,7 @@ export const routes: Routes = [
 
     },
     {
-        path: 'time-slots',
+        path: 'time-slots/:id',
         loadComponent: () => import('./features/tutor/tutor-time-slots/tutor-time-slots.component').then(m => m.TutorTimeSlotsComponent),
         canActivate: [authGuard]
 
