@@ -5,6 +5,29 @@ textarea {
   min-height: 100px;
   resize: vertical;
 }
+.preview-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  border: 4px solid var(--white);
+  box-shadow: var(--shadow);
+}
+
+
+.upload-btn {
+  width: auto;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+}
 
 .checkbox-group {
   display: flex;

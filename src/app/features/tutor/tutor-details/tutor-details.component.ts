@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TutorService, CommentDto } from '../../../core/services/tutor.service';
 import { CommonModule } from '@angular/common';
@@ -21,7 +21,8 @@ export class TutorDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private tutorService: TutorService
+    private tutorService: TutorService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -45,11 +46,14 @@ export class TutorDetailsComponent implements OnInit {
           this.youtubeLink = `https://www.youtube.com/embed/${this.tutor.videoId}`;
         }
         this.loading = false;
+        this.cdr.detectChanges();
+
       },
       error: (err) => {
         console.error('Error fetching tutor details:', err);
         this.error = 'Failed to load tutor details';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

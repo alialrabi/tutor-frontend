@@ -7,7 +7,8 @@ export const routes: Routes = [
     {
         path: '',
         redirectTo: 'home',
-        pathMatch: 'full'
+        pathMatch: 'full',
+
     },
     {
         path: 'oauth2/redirect',
@@ -44,29 +45,38 @@ export const routes: Routes = [
     {
         path: 'dashboard',
         loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent),
+        canActivate: [authGuard]
+
     },
     {
         path: 'profile',
         loadComponent: () => import('./features/user-profile/user-profile.component').then(m => m.UserProfileComponent),
+        canActivate: [authGuard]
     },
     {
         path: 'details/:id',
         loadComponent: () => import('./features/tutor/tutor-details/tutor-details.component').then(m => m.TutorDetailsComponent),
+        canActivate: [authGuard]
+
     },
     {
         path: 'time-slots',
         loadComponent: () => import('./features/tutor/tutor-time-slots/tutor-time-slots.component').then(m => m.TutorTimeSlotsComponent),
+        canActivate: [authGuard]
+
     },
     {
         path: 'sessions',
         children: [
             {
                 path: 'tutor/:id',
-                loadComponent: () => import('./features/tutor/tutor-sessions/tutor-sessions.component').then(m => m.TutorSessionsComponent)
+                loadComponent: () => import('./features/tutor/tutor-sessions/tutor-sessions.component').then(m => m.TutorSessionsComponent),
+                canActivate: [authGuard]
             },
             {
                 path: 'user/:id',
-                loadComponent: () => import('./features/user/user-sessions/user-sessions.component').then(m => m.UserSessionsComponent)
+                loadComponent: () => import('./features/user/user-sessions/user-sessions.component').then(m => m.UserSessionsComponent),
+                canActivate: [authGuard]
             }
         ]
     },

@@ -11,33 +11,37 @@
   </div>
 
   <!-- Main Content -->
-  <div class="row">
+  <div>
     <!-- Filters Sidebar -->
-    <div class="col-lg-3">
-      <aside class="filters-sidebar-preply">
+    <div  class="search-bar">
+        <aside class="filters-sidebar-preply">
 
-          <div class="filter-group">
-              <label>Min Rating</label>
-              <input type="number" [(ngModel)]="filters.rating" placeholder="4.0" min="0" max="5" step="0.1">
-          </div>
+            <div>
+                <label class="form-label">Rating</label>
+                <input type="range" class="form-range" min="0" max="5" step="0.1" [(ngModel)]="filters.rating" (change)="search()">
+                <div class="range-values">
+                    <span>0</span>
+                    <span>{{ filters.rating || '5' }}</span>
+                </div>
+            </div>
 
-          <div class="filter-group">
-              <label>Max Rate ($)</label>
+          <div>
+              <label class="form-label">Max Rate ($)</label>
               <input type="number" [(ngModel)]="filters.hourlyRate" placeholder="50" min="0">
           </div>
 
-          <div class="filter-group">
-              <label>Min Exp (Yrs)</label>
+          <div>
+              <label class="form-label">Min Exp (Yrs)</label>
               <input type="number" [(ngModel)]="filters.experienceYears" placeholder="2" min="0">
           </div>
 
-          <div class="filter-group">
-              <label>Min Reviews</label>
+          <div>
+              <label class="form-label">Min Reviews</label>
               <input type="number" [(ngModel)]="filters.totalReviews" placeholder="10" min="0">
           </div>
 
 
-        <div class="filter-group">
+        <div>
           <label class="form-label">Price per hour</label>
           <input type="range" class="form-range" min="0" max="200" step="5" [(ngModel)]="filters.hourlyRate" (change)="search()">
           <div class="range-values">
@@ -45,7 +49,10 @@
             <span>${{ filters.hourlyRate || 'Any' }}</span>
           </div>
         </div>
-        <button class="btn btn-primary w-100" (click)="search()">Apply Filters</button>
+
+            <div>
+                <button class="btn btn-primary w-100" (click)="search()">Apply Filters</button>
+            </div>
       </aside>
     </div>
 
@@ -64,7 +71,6 @@
         <div class="row g-0">
           <div class="col-md-2 text-center">
             <div class="avatar-wrapper">
-              <img src="assets/default-avatar.png" class="tutor-avatar" alt="{{ tutor.userProfile.firstName }}">
               <span class="online-indicator"></span>
             </div>
           </div>
@@ -72,7 +78,7 @@
           <div class="col-md-7">
             <div class="card-body">
               <div class="tutor-header">
-                <h5 class="tutor-name" [routerLink]="['/details', tutor.id]">{{ tutor.userProfile.firstName }} {{ tutor.userProfile.lastName }}</h5>
+                <h5 class="tutor-name" [routerLink]="['/details', tutor.id]">{{ tutor.userProfile?.firstName }} {{ tutor.userProfile?.lastName }}</h5>
                 <span class="tutor-rate">${{ tutor.hourlyRate }}/hr</span>
               </div>
               <div class="tutor-rating">
