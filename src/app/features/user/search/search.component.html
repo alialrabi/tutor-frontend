@@ -69,10 +69,20 @@
 
           <div class="col-md-7">
             <div class="card-body">
-              <div class="tutor-header">
-                <h5 class="tutor-name" [routerLink]="['/details', tutor.id]">{{ tutor.userProfile?.firstName }} {{ tutor.userProfile?.lastName }}</h5>
-                <span class="tutor-rate">${{ tutor.hourlyRate }}/hr</span>
+              <div class="tutor-header-content">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h5 class="tutor-title" [routerLink]="['/details', tutor.id]">
+                      {{ tutor.title || 'Tutor' }}
+                    </h5>
+                    <div class="tutor-name-small">
+                      {{ tutor.userProfile?.firstName }} {{ tutor.userProfile?.lastName }}
+                    </div>
+                  </div>
+                  <span class="tutor-rate">${{ tutor.hourlyRate }}/hr</span>
+                </div>
               </div>
+
               <div class="tutor-rating">
                 <i class="bi bi-star-fill"></i> {{ tutor.rating }} <span>({{ tutor.totalReviews }} reviews)</span>
               </div>

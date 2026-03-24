@@ -9,6 +9,7 @@ export interface UserProfile {
 export interface Tutor {
   id: number;
   userProfile: UserProfile;
+  title?: string; // Renamed from jobTitle
   bio: string;
   experienceYears: number;
   hourlyRate: number;
