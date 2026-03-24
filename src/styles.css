@@ -13,8 +13,9 @@
   --error:      #d62828;
   --radius:     14px;
   --shadow:     0 8px 40px rgba(26,58,42,0.10);
-  --font-head:  'Playfair Display', Georgia, serif;
-  --font-body:  'DM Sans', system-ui, sans-serif;
+  /* Updated fonts to match Upwork style */
+  --font-head:  'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-body:  'DM Sans', system-ui, -apple-system, sans-serif;
 }
 
 html, body { height: 100%; font-family: var(--font-body); background: var(--surface); color: var(--text); }
@@ -31,7 +32,7 @@ html, body { height: 100%; font-family: var(--font-body); background: var(--surf
 /* Auth form side */
 .auth-form-side {
   width: 100%;
-  max-width: 480px; /* Increased max-width slightly for better form display */
+  max-width: 480px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,6 +54,7 @@ html, body { height: 100%; font-family: var(--font-body); background: var(--surf
   color: var(--text);
   margin-bottom: 8px;
   text-align: center;
+  letter-spacing: -0.02em; /* Tighter spacing for headings */
 }
 
 .auth-card-sub {
@@ -69,10 +71,9 @@ html, body { height: 100%; font-family: var(--font-body); background: var(--surf
 label {
   display: block;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--brand);
   margin-bottom: 7px;
-  letter-spacing: 0.02em;
 }
 
 input, select {
@@ -137,11 +138,10 @@ input.ng-invalid.ng-touched {
   border-radius: var(--radius);
   font-family: var(--font-body);
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
   text-align: center;
-  letter-spacing: 0.01em;
 }
 .btn-primary {
   background: var(--brand);
@@ -250,6 +250,7 @@ input.ng-invalid.ng-touched {
   color: var(--white);
   margin-bottom: 8px;
   position: relative; z-index: 1;
+  letter-spacing: -0.02em;
 }
 .welcome-sub { color: var(--accent-lt); opacity: 0.85; position: relative; z-index: 1; }
 
@@ -266,7 +267,7 @@ input.ng-invalid.ng-touched {
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
 }
-.stat-value { font-family: var(--font-head); font-size: 2rem; font-weight: 700; color: var(--brand); }
+.stat-value { font-family: var(--font-head); font-size: 2rem; font-weight: 700; color: var(--brand); letter-spacing: -0.02em; }
 .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
 
 .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }

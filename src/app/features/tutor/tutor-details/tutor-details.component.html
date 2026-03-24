@@ -23,6 +23,9 @@
         <div class="card shadow-sm border-0 mb-4">
           <div class="card-body p-4">
             <h2 class="h4 fw-bold mb-3">About {{ tutor?.userProfile?.firstName }}</h2>
+            @if (tutor?.title) {
+              <h5 class="text-primary mb-3">{{ tutor?.title }}</h5>
+            }
             <p class="text-secondary" style="line-height: 1.7;">
               {{ tutor?.bio }}
             </p>
@@ -81,22 +84,6 @@
               <button class="btn btn-outline-secondary fw-bold">Message</button>
             </div>
 
-            <hr class="my-4">
-
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                Accepts One-to-One
-                <i class="bi" [class.bi-check-circle-fill]="tutor?.acceptsOneToOne" [class.text-success]="tutor?.acceptsOneToOne" [class.bi-x-circle-fill]="!tutor?.acceptsOneToOne" [class.text-danger]="!tutor?.acceptsOneToOne"></i>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                Accepts Group Sessions
-                <i class="bi" [class.bi-check-circle-fill]="tutor?.acceptsOneToMany" [class.text-success]="tutor?.acceptsOneToMany" [class.bi-x-circle-fill]="!tutor?.acceptsOneToMany" [class.text-danger]="!tutor?.acceptsOneToMany"></i>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                Total Reviews
-                <span class="badge bg-light text-dark rounded-pill">{{ tutor?.totalReviews }}</span>
-              </li>
-            </ul>
           </div>
         </div>
       </div>
