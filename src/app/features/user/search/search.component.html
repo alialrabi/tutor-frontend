@@ -11,52 +11,43 @@
   </div>
 
   <!-- Main Content -->
-  <div>
-    <!-- Filters Sidebar -->
-    <div  class="search-bar">
-        <aside class="filters-sidebar-preply">
+  <div class="row">
+    <!-- Filters Sidebar (Left Column) -->
+    <div class="col-lg-3">
+      <aside class="filters-sidebar-preply">
+        <h5 class="mb-3 fw-bold">Filters</h5>
 
-            <div>
-                <label class="form-label">Rating</label>
-                <input type="range" class="form-range" min="0" max="5" step="0.1" [(ngModel)]="filters.rating" (change)="search()">
-                <div class="range-values">
-                    <span>0</span>
-                    <span>{{ filters.rating || '5' }}</span>
-                </div>
-            </div>
-
-          <div>
-              <label class="form-label">Max Rate ($)</label>
-              <input type="number" [(ngModel)]="filters.hourlyRate" placeholder="50" min="0">
-          </div>
-
-          <div>
-              <label class="form-label">Min Exp (Yrs)</label>
-              <input type="number" [(ngModel)]="filters.experienceYears" placeholder="2" min="0">
-          </div>
-
-          <div>
-              <label class="form-label">Min Reviews</label>
-              <input type="number" [(ngModel)]="filters.totalReviews" placeholder="10" min="0">
-          </div>
-
-
-        <div>
-          <label class="form-label">Price per hour</label>
-          <input type="range" class="form-range" min="0" max="200" step="5" [(ngModel)]="filters.hourlyRate" (change)="search()">
-          <div class="range-values">
-            <span>$0</span>
-            <span>${{ filters.hourlyRate || 'Any' }}</span>
+        <div class="filter-group mb-3">
+          <label class="form-label">Rating</label>
+          <input type="range" class="form-range" min="0" max="5" step="0.1" [(ngModel)]="filters.rating" (change)="search()">
+          <div class="range-values d-flex justify-content-between text-muted small">
+            <span>0</span>
+            <span>{{ filters.rating || '5' }}</span>
           </div>
         </div>
 
-            <div>
-                <button class="btn btn-primary w-100" (click)="search()">Apply Filters</button>
-            </div>
+        <div class="filter-group mb-3">
+          <label class="form-label">Max Rate ($)</label>
+          <input type="number" class="form-control" [(ngModel)]="filters.hourlyRate" placeholder="50" min="0">
+        </div>
+
+        <div class="filter-group mb-3">
+          <label class="form-label">Min Exp (Yrs)</label>
+          <input type="number" class="form-control" [(ngModel)]="filters.experienceYears" placeholder="2" min="0">
+        </div>
+
+        <div class="filter-group mb-3">
+          <label class="form-label">Min Reviews</label>
+          <input type="number" class="form-control" [(ngModel)]="filters.totalReviews" placeholder="10" min="0">
+        </div>
+
+        <div class="d-grid mt-4">
+          <button class="btn btn-primary" (click)="search()">Apply Filters</button>
+        </div>
       </aside>
     </div>
 
-    <!-- Tutor Results -->
+    <!-- Tutor Results (Right Column) -->
     <div class="col-lg-9">
       <div class="results-summary mb-3">
         <strong>{{ filteredTutors.length }} tutors found</strong>
@@ -69,8 +60,9 @@
 
       <div class="tutor-card-preply" *ngFor="let tutor of filteredTutors">
         <div class="row g-0">
-          <div class="col-md-2 text-center">
+          <div class="col-md-2 text-center p-3">
             <div class="avatar-wrapper">
+              <img src="assets/default-avatar.png" class="tutor-avatar" alt="{{ tutor.userProfile?.firstName }}">
               <span class="online-indicator"></span>
             </div>
           </div>
@@ -88,11 +80,9 @@
             </div>
           </div>
 
-
-            
-          <div class="col-md-3 d-flex flex-column justify-content-center p-3">
-            <button class="btn btn-primary mb-2" [routerLink]="['/details', tutor.id]">View Profile</button>
-            <button class="btn btn-outline-secondary">Book trial lesson</button>
+          <div class="col-md-3 d-flex flex-column justify-content-center p-3 border-start-md">
+            <button class="btn btn-primary mb-2 w-100" [routerLink]="['/details', tutor.id]">View Profile</button>
+            <button class="btn btn-outline-secondary w-100">Book trial lesson</button>
           </div>
         </div>
       </div>
