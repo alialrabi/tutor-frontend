@@ -1,0 +1,43 @@
+.search-header-preply {
+  margin-bottom: 3rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.search-header-preply h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.search-bar-wrapper {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.search-bar-wrapper .input-group {
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+  display: flex;
+}
+
+.search-bar-wrapper .input-group-text {
+  background: none;
+  border: none;
+  padding-left: 1.5rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+

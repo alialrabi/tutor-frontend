@@ -1,1 +1,11 @@
-<app-search></app-search>
+<div class="container my-5">
+  <div class="search-header-preply">
+    <h1>Find the best tutors</h1>
+    <div class="search-bar-wrapper">
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <input type="text" class="form-control" [(ngModel)]="searchQuery" (click)="onSearch()" placeholder="Search by subject or keyword" (keyup.enter)="onSearch()">
+      </div>
+    </div>
+  </div>
+</div>

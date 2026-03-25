@@ -3,7 +3,7 @@ import { SearchService, FilterRequest, Filter } from '../../../core/services/sea
 import { Tutor } from '../../../shared/models/tutor.model';
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import {RouterLink} from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-search',
@@ -27,11 +27,21 @@ export class SearchComponent implements OnInit {
     acceptsOneToMany: null as boolean | null
   };
 
-  constructor(private searchService: SearchService) { }
+  constructor(private searchService: SearchService,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.search(); // Load initial tutors
+
+    this.route.queryParams.subscribe(params => {
+      console.log(params)
+      const key = params['key'];
+      if (key) {
+        this.initSearch(key);
+      }
+    });
   }
+
+
 
   search(): void {
     const filterList: Filter[] = [];
@@ -66,4 +76,22 @@ export class SearchComponent implements OnInit {
       this.filteredTutors = tutors;
     });
   }
+
+  initSearch(bio: string): void {
+    const filterList: Filter[] = [];
+
+    filterList.push({ columnName: 'bio', operation: 'LIKE', value: bio });
+
+    const request: FilterRequest = {
+      filterList: filterList,
+      sortCriteria: [],
+      page: 0,
+      size: 10
+    };
+
+    this.searchService.getTutors(request).subscribe(tutors => {
+      this.filteredTutors = tutors;
+    });
+  }
+
 }

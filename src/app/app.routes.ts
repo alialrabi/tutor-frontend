@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { HomeComponent } from "./home/home.component";
+import {SearchComponent} from "./features/user/search/search.component";
 
 export const routes: Routes = [
-    { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent },
+  { path: 'search', component: SearchComponent },
     {
         path: '',
         redirectTo: 'home',
