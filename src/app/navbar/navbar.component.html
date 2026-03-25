@@ -3,13 +3,10 @@
     <div class="navbar-left">
       <a routerLink="/" class="navbar-brand">Tutor</a>
       <nav class="navbar-nav">
-        @if (!tutorId) {
-
-        }
-
         @if (currentUser) {
           @if (tutorId) {
-            <a [routerLink]="['/sessions/tutor', tutorId]" class="nav-link">My Sessions</a>
+            <a [routerLink]="['/sessions/user', userId]" class="nav-link">My Sessions</a>
+            <a [routerLink]="['/sessions/tutor', tutorId]" class="nav-link">Tutoring Sessions</a>
             <a routerLink="/create-time-slot" class="nav-link">Availability</a>
             <a routerLink="/profile" class="nav-link">My Profile</a>
           } @else {
