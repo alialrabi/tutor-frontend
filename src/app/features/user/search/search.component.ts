@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { SearchService, FilterRequest, Filter } from '../../../core/services/search.service';
 import { Tutor } from '../../../shared/models/tutor.model';
 import { FormsModule } from "@angular/forms";
@@ -28,10 +28,10 @@ export class SearchComponent implements OnInit {
   };
 
   constructor(private searchService: SearchService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-
     this.route.queryParams.subscribe(params => {
       console.log(params)
       const key = params['key'];
@@ -91,6 +91,7 @@ export class SearchComponent implements OnInit {
 
     this.searchService.getTutors(request).subscribe(tutors => {
       this.filteredTutors = tutors;
+      this.cdr.detectChanges();
     });
   }
 
