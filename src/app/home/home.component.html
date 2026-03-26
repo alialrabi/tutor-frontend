@@ -1,11 +1,83 @@
-<div class="container my-5">
-  <div class="search-header-preply">
-    <h1>Find the best tutors</h1>
-    <div class="search-bar-wrapper">
-      <div class="input-group">
-        <span class="input-group-text"><i class="bi bi-search"></i></span>
-        <input type="text" class="form-control" [(ngModel)]="searchQuery" (click)="onSearch()" placeholder="Search by subject or keyword" (keyup.enter)="onSearch()">
+<section class="vh-100 d-flex align-items-start justify-content-center position-relative overflow-hidden pt-5"
+         style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)),
+         url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center;">
+
+  <div class="container mt-5 pt-lg-5">
+    <!-- Search Header -->
+    <div class="search-header-preply">
+      <h1 class="text-white">Find the best tutors</h1>
+      <div class="search-bar-wrapper">
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input type="text" class="form-control" [(ngModel)]="searchQuery" placeholder="Search by subject or keyword" (keyup.enter)="onSearch()">
+        </div>
       </div>
     </div>
   </div>
-</div>
+</section>
+
+<section class="py-5 bg-white">
+  <div class="container py-5">
+    <div class="text-center mb-5">
+      <h2 class="display-6 fw-bold text-dark mb-3">How it works</h2>
+      <p class="text-muted fs-5 mx-auto" style="max-width: 600px;">Our platform connects you with experts globally, making the learning process seamless and effective.</p>
+    </div>
+
+    <div class="row g-5">
+      <!-- Step 1 -->
+      <div class="col-lg-4">
+        <div class="text-center transition-hover">
+          <div class="position-relative mb-4">
+            <img src="https://images.unsplash.com/photo-1543269664-76bc3997d9ea?q=80&w=600&auto=format&fit=crop"
+                 class="img-fluid rounded-4 shadow-sm" alt="Find your tutor" style="height: 240px; width: 100%; object-fit: cover;">
+            <div class="position-absolute top-0 start-0 m-3">
+              <span class="badge rounded-pill bg-primary px-3 py-2 fs-6">1</span>
+            </div>
+          </div>
+          <div class="px-3">
+            <h4 class="fw-bold mb-3">Find your tutor</h4>
+            <p class="text-muted lh-base">Discover expert mentors from our curated community. Filter by expertise, rating, and price to find your perfect match in seconds.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="col-lg-4">
+        <div class="text-center transition-hover">
+          <div class="position-relative mb-4">
+            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop"
+                 class="img-fluid rounded-4 shadow-sm" alt="Start learning" style="height: 240px; width: 100%; object-fit: cover;">
+            <div class="position-absolute top-0 start-0 m-3">
+              <span class="badge rounded-pill bg-primary px-3 py-2 fs-6">2</span>
+            </div>
+          </div>
+          <div class="px-3">
+            <h4 class="fw-bold mb-3">Start learning</h4>
+            <p class="text-muted lh-base">Schedule your first session instantly. Our integrated platform handles bookings and reminders so you can focus on what matters.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="col-lg-4">
+        <div class="text-center transition-hover">
+          <div class="position-relative mb-4">
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=600&auto=format&fit=crop"
+                 class="img-fluid rounded-4 shadow-sm" alt="Speak naturally" style="height: 240px; width: 100%; object-fit: cover;">
+            <div class="position-absolute top-0 start-0 m-3">
+              <span class="badge rounded-pill bg-primary px-3 py-2 fs-6">3</span>
+            </div>
+          </div>
+          <div class="px-3">
+            <h4 class="fw-bold mb-3">Speak naturally</h4>
+            <p class="text-muted lh-base">Track your progress and achieve your goals. Get personalized feedback and tailored lesson plans to accelerate your growth.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-5 pt-4">
+      <button class="btn btn-outline-primary rounded-pill px-5 py-2 fw-bold" (click)="onSearch()">Find your tutor</button>
+    </div>
+  </div>
+</section>

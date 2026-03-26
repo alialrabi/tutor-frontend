@@ -13,8 +13,9 @@
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: #fff;
   text-align: center;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .search-bar-wrapper {
@@ -39,5 +40,3 @@
   display: flex;
   align-items: center;
 }
-
-
