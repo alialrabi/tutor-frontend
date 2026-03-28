@@ -180,7 +180,11 @@ input.ng-invalid.ng-touched {
 .alert-success { background: rgba(116,198,157,0.15); color: var(--brand); border: 1px solid rgba(116,198,157,0.3); }
 
 /* Dashboard */
-.dashboard-layout { min-height: 100vh; display: flex; flex-direction: column; background: var(--surface); }
+.dashboard-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface); }
 
 .topbar {
   background: var(--white);
@@ -226,16 +230,15 @@ input.ng-invalid.ng-touched {
 }
 .btn-logout:hover { border-color: var(--error); color: var(--error); }
 
-.dashboard-content { flex: 1; padding: 40px; max-width: 1100px; width: 100%; margin: 0 auto; }
-
-.welcome-banner {
-  background: var(--brand);
-  border-radius: 20px;
-  padding: 40px;
-  margin-bottom: 36px;
-  position: relative;
-  overflow: hidden;
+.dashboard-content {
+  flex: 1;
+  padding: 0px;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
 }
+
+
 .welcome-banner::after {
   content: '';
   position: absolute;

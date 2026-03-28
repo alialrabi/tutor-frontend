@@ -29,8 +29,12 @@ export class TutorService {
     return this.http.post(`${this.URL}${this.API}`, tutorData);
   }
 
-  getTutorByUserId(userId: number): Observable<Tutor> {
-    return this.http.get<Tutor>(`${this.URL}${this.API}/details/${userId}`);
+  updateTutor(id: number | undefined, tutorData: any): Observable<any> {
+    return this.http.put<any>(`${this.URL}${this.API}/${id}`, tutorData)
+  }
+
+  getTutorByUserId(userId: number): Observable<any> {
+    return this.http.get<any>(`${this.URL}${this.API}/details`, { params: { id: userId } });
   }
 
   getTutorDetails(id: number): Observable<Tutor> {
@@ -40,5 +44,9 @@ export class TutorService {
 
   getComments(tutorId: number): Observable<CommentDto[]> {
     return this.http.get<CommentDto[]>(`${this.URL}${this.COMMENTS_API}/tutor/${tutorId}`);
+  }
+
+  updateRating(tutorId: number | undefined, rate: number): Observable<any> {
+    return this.http.put(`${this.URL}${this.API}/rate/${tutorId}`, { rate });
   }
 }

@@ -1,129 +1,188 @@
-/* All primary styles are now inherited from the global styles.css */
-
 .profile-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 24px 20px;
 }
 
-/* Profile Header */
+/* ───── Profile Header Card ───── */
 .profile-header-card {
   background: var(--white);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  overflow: hidden;
   margin-bottom: 30px;
-  position: relative;
-}
-
-.cover-photo {
-  height: 200px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-}
-
-.btn-edit-cover {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: rgba(0, 0, 0, 0.5);
-  color: var(--white);
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.3s;
-}
-
-.btn-edit-cover:hover {
-  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--border);
 }
 
 .profile-main-info {
-  padding: 20px;
+  padding: 28px 24px;
   display: flex;
-  align-items: flex-end;
-  position: relative;
-  margin-top: -80px; /* Overlap with cover photo */
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
 }
 
+/* ───── Avatar ───── */
 .profile-picture-wrapper {
   position: relative;
-  margin-right: 20px;
+  flex-shrink: 0;
 }
 
 .profile-picture {
-  width: 160px;
-  height: 160px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   border: 4px solid var(--white);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   object-fit: cover;
-  background: var(--white);
+  background: var(--surface);
+  display: block;
 }
 
 .btn-edit-profile-pic {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 4px;
+  right: 4px;
   background: var(--brand);
   color: var(--white);
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   border: 2px solid var(--white);
-  transition: background 0.3s;
+  transition: background 0.2s;
+}
+
+.btn-edit-profile-pic mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
 }
 
 .btn-edit-profile-pic:hover {
   background: var(--brand-mid);
 }
 
+/* ───── Text Info ───── */
 .profile-text-info {
-  flex-grow: 1;
-  padding-bottom: 10px;
+  flex: 1;
+  min-width: 0;
 }
 
 .profile-name {
   font-family: var(--font-head);
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--text);
-  margin: 0;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
 }
 
 .profile-headline {
-  font-size: 1.1rem;
-  color: var(--muted);
-  margin-bottom: 8px;
+  font-size: 1rem;
+  color: var(--brand);
+  font-weight: 500;
+  margin-bottom: 10px;
 }
 
 .profile-location,
 .profile-email {
-  font-size: 0.9rem;
-  color: var(--text);
+  font-size: 0.875rem;
+  color: var(--muted);
   margin-bottom: 4px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
+/* ───── Actions ───── */
 .profile-actions {
   display: flex;
+  flex-direction: column;
   gap: 10px;
-  padding-bottom: 10px;
+  position: relative;
+  flex-shrink: 0;
 }
 
-/* Content Grid */
+@media (max-width: 768px) {
+  .profile-main-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .profile-actions {
+    flex-direction: row;
+    width: 100%;
+  }
+}
+
+/* ───── Share Panel ───── */
+.share-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+}
+
+.share-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 100;
+  width: 280px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.share-title {
+  margin: 0;
+  padding: 14px 16px 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+}
+
+mat-list-item {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+mat-list-item:hover {
+  background: #f5f5f5;
+}
+
+.social-icon {
+  width: 22px;
+  height: 22px;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.social-icon.green    { background: #25D366; filter: invert(1); }
+.social-icon.blue     { background: #1877F2; filter: invert(1); }
+.social-icon.dark     { background: #000;    filter: invert(1); }
+.social-icon.linkedin { background: #0A66C2; filter: invert(1); }
+.social-icon.telegram { background: #26A5E4; filter: invert(1); }
+.email-icon           { color: #EA4335; }
+
+.copy-toast {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: 0.85rem;
+  border-top: 1px solid #c8e6c9;
+}
+
+/* ───── Content Grid ───── */
 .profile-content-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 30px;
+  gap: 24px;
 }
 
 @media (max-width: 992px) {
@@ -139,10 +198,11 @@
   gap: 20px;
 }
 
+/* ───── Content Cards ───── */
 .content-card {
   background: var(--white);
   border-radius: var(--radius);
-  padding: 24px;
+  padding: 20px 24px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
 }
@@ -151,17 +211,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   border-bottom: 1px solid var(--border);
   padding-bottom: 12px;
 }
 
 .card-header h3 {
   font-family: var(--font-head);
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--brand);
   margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .btn-icon {
@@ -169,23 +231,27 @@
   border: none;
   color: var(--muted);
   cursor: pointer;
-  font-size: 1rem;
-  transition: color 0.3s;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
 }
 
 .btn-icon:hover {
   color: var(--brand);
+  background: var(--surface);
 }
 
 .card-body p {
   color: var(--text);
   line-height: 1.6;
+  margin: 0;
 }
 
-/* Experience Section */
+/* ───── Experience ───── */
 .experience-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 16px;
 }
 
@@ -193,28 +259,29 @@
   width: 48px;
   height: 48px;
   background: var(--surface);
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--brand);
   font-size: 1.2rem;
+  flex-shrink: 0;
 }
 
 .exp-details h4 {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--text);
   margin: 0 0 4px 0;
 }
 
 .exp-details p {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: var(--muted);
   margin: 0;
 }
 
-/* Stats Card */
+/* ───── Stats Card ───── */
 .stats-card {
   padding: 0;
 }
@@ -230,7 +297,7 @@
 
 .stat-item {
   flex: 1;
-  padding: 20px;
+  padding: 18px 12px;
   text-align: center;
   border-right: 1px solid var(--border);
 }
@@ -242,31 +309,219 @@
 .stat-value {
   display: block;
   font-family: var(--font-head);
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--brand);
   margin-bottom: 4px;
 }
 
 .stat-label {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
-/* Skills */
-.skills-list {
+/* ───── Star Rating Card ───── */
+.rate-card .card-body {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-top: 4px;
 }
 
-.skill-tag {
-  background: var(--surface);
+.rate-hint {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0;
+  text-align: center;
+}
+
+.star-rating {
+  display: flex;
+  gap: 4px;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform 0.15s ease;
+  line-height: 1;
+}
+
+.star-btn mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: #d1d5db;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.star-btn.active mat-icon,
+.star-btn.hovered mat-icon {
+  color: #f59e0b;
+}
+
+.star-btn:hover {
+  transform: scale(1.15);
+}
+
+.star-btn:focus {
+  outline: none;
+}
+
+.rate-label {
+  font-size: 0.875rem;
+  font-weight: 600;
   color: var(--brand);
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 500;
+  margin: 0;
+  min-height: 1.2em;
+  text-align: center;
+}
+
+.submit-rating-btn {
+  width: 100%;
+  margin-top: 4px;
+  gap: 6px;
+}
+
+.submit-rating-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+/* ───── Modal ───── */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-card {
+  position: relative;
+  top: 10%;
+  background: var(--white);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+
+.modal-header h2 {
+  font-family: var(--font-head);
+  font-size: 1.4rem;
+  color: var(--brand);
+  margin: 0;
+}
+
+.btn-close {
+  font-size: 1.6rem;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modal-body .field-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 0;
+}
+
+.modal-body .field {
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+.modal-body label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--brand-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.modal-body input,
+.modal-body textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.modal-body input:focus,
+.modal-body textarea:focus {
+  border-color: var(--brand);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+
+.modal-footer .btn {
+  width: auto;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+  border: none;
+  transition: opacity 0.2s;
+}
+
+.btn-primary {
+  background: var(--brand);
+  color: var(--white);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border) !important;
+  color: var(--text);
+}
+
+.btn-outline:hover {
+  background: var(--surface);
 }

@@ -36,9 +36,8 @@ export class AuthService {
     this.currentUser$ = this.currentUserSubject.asObservable();
   }
 
-
-  registerWithGoogle() {
-
+  updateProfile(data: any): Observable<any> {
+    return this.http.put<any>("", data)
   }
 
   register(data: RegisterRequest): Observable<AuthenticatedUser> {

@@ -4,6 +4,7 @@ export interface UserProfile {
   lastName: string;
   email: string;
   phoneNumber?: string;
+  image: number []
 }
 
 export interface Tutor {
@@ -21,4 +22,5 @@ export interface Tutor {
   numberOfSessions?: number;
   videoId?: string;
   categoryId?: number;
+  email?: string;
 }

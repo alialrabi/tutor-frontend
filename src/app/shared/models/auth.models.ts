@@ -49,7 +49,9 @@ export interface UserProfile {
   permissions: string[];
   image: number[],
   provider: string,
-  tutorId: number
+  tutorId: number,
+  userType: string,
+  coverPhotoUrl?: string;
 }
 
 /**
